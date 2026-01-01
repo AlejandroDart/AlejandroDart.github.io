@@ -1,15 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Alejandro Mayró Lena</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --primary: #3b82f6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2ff, var(--bg));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+
+    .card {
+      background: var(--card);
+      padding: 40px 36px;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .link-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .link-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .link-desc {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
 </head>
-<body style="font-family: Arial; padding: 40px;">
-  <h1>AlejandroDart</h1>
-  <p>Desarrollador de aplicaciones.</p>
-  <p>
-    Política de privacidad:
-    <a href="/escala-promedio/">Escala y Promedio</a>
-  </p>
+
+<body>
+  <main class="card">
+    <h1>Alejandro Mayró Lena</h1>
+    <div class="subtitle">Desarrollador de aplicaciones</div>
+
+    <div class="section-title">Aplicaciones publicadas</div>
+
+    <a class="link-card" href="/escala-promedio/">
+      <div class="link-title">Escala y Promedio</div>
+      <div class="link-desc">
+        Política de privacidad de la aplicación
+      </div>
+    </a>
+
+    <footer>
+      © 2026 · AlejandroDart
+    </footer>
+  </main>
 </body>
 </html>
