@@ -1,28 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Política de Privacidad</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2ff, var(--bg));
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 48px 44px;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    h2 {
+      margin-top: 36px;
+      margin-bottom: 12px;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    p {
+      margin: 0 0 16px;
+      font-size: 16px;
+      text-align: justify;
+      color: var(--text);
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .email {
+      font-weight: 600;
+      color: var(--accent);
+      word-break: break-all;
+    }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px;">
-  <h1>Política de Privacidad</h1>
 
-  <p><strong>Escala y Promedio</strong> no recopila, almacena ni comparte información personal de los usuarios.</p>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Política de Privacidad</h1>
 
-  <p>La aplicación funciona de manera local en el dispositivo y no requiere registro ni acceso a datos personales como nombre, correo electrónico, ubicación, contactos o identificadores del dispositivo.</p>
+      <p>
+        <strong>Escala y Promedio</strong> no recopila, almacena ni comparte
+        información personal de los usuarios.
+      </p>
 
-  <h2>Publicidad</h2>
-  <p>La aplicación puede mostrar anuncios proporcionados por terceros, como Google AdMob. Estos servicios pueden utilizar identificadores anónimos para mostrar anuncios relevantes, de acuerdo con sus propias políticas de privacidad.</p>
+      <p>
+        La aplicación funciona de manera local en el dispositivo y no requiere
+        registro ni acceso a datos personales como nombre, correo electrónico,
+        ubicación, contactos o identificadores del dispositivo.
+      </p>
 
-  <h2>Datos de menores</h2>
-  <p>La aplicación no está dirigida específicamente a menores de 13 años y no recopila información personal de menores.</p>
+      <h2>Publicidad</h2>
+      <p>
+        La aplicación puede mostrar anuncios proporcionados por terceros, como
+        Google AdMob. Estos servicios pueden utilizar identificadores anónimos
+        para mostrar anuncios relevantes, de acuerdo con sus propias políticas
+        de privacidad.
+      </p>
 
-  <h2>Cambios</h2>
-  <p>Esta política de privacidad puede actualizarse ocasionalmente. Cualquier cambio será publicado en esta misma página.</p>
+      <h2>Datos de menores</h2>
+      <p>
+        La aplicación no está dirigida específicamente a menores de 13 años y no
+        recopila información personal de menores.
+      </p>
 
-  <h2>Contacto</h2>
-  <p>Si tienes preguntas sobre esta política de privacidad, puedes contactar al desarrollador en:</p>
-  <p><strong>Email:</strong> amayrolena.dart@gmail.com</p>
+      <h2>Cambios</h2>
+      <p>
+        Esta política de privacidad puede actualizarse ocasionalmente. Cualquier
+        cambio será publicado en esta misma página.
+      </p>
+
+      <h2>Contacto</h2>
+      <p>
+        Si tienes preguntas sobre esta política de privacidad, puedes contactar
+        al desarrollador en:
+      </p>
+      <p class="email">amayrolena.dart@gmail.com</p>
+
+      <footer>
+        © 2026 · Escala y Promedio
+      </footer>
+    </div>
+  </div>
 </body>
 </html>
