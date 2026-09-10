@@ -330,13 +330,8 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden && !gameOverlay.hidden) closeGame();
 });
 
-/* Sorpresa privada: solo se carga en localhost o en la red privada; su contenido está excluido de Git. */
-async function initLocalSurprise() {
-  const hostname = window.location.hostname;
-  const localHosts = new Set(["127.0.0.1", "localhost", "::1"]);
-  const isPrivateNetwork = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(hostname);
-  if (!localHosts.has(hostname) && !isPrivateNetwork) return;
-
+/* Sorpresa romántica pública, visible desde el pie de página. */
+async function initLoveSurprise() {
   try {
     const response = await fetch("private-assets/surprise.json", { cache:"no-store" });
     if (!response.ok) return;
@@ -347,8 +342,9 @@ async function initLocalSurprise() {
     const trigger = document.createElement("button");
     trigger.type = "button";
     trigger.className = "secret-love-trigger";
-    trigger.textContent = `— ${surprise.name}`;
+    trigger.textContent = `💙 ${surprise.name}`;
     trigger.setAttribute("aria-haspopup", "dialog");
+    trigger.setAttribute("aria-label", `Abrir sorpresa para ${surprise.name}`);
     slot.appendChild(trigger);
 
     const modal = document.createElement("div");
@@ -608,8 +604,8 @@ async function initLocalSurprise() {
       }
     });
   } catch {
-    /* Si el archivo privado no existe, la versión pública continúa sin la sorpresa. */
+    /* Si el recurso no está disponible, el resto del portafolio continúa funcionando. */
   }
 }
 
-initLocalSurprise();
+initLoveSurprise();
