@@ -1,120 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Alejandro Mayró Lena</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#020b1e" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Portafolio profesional de Alejandro Mayró Lena: ingeniería informática, ciberseguridad, inteligencia artificial y desarrollo de software." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Alejandro Mayró Lena | Ingeniería, IA y Ciberseguridad" />
+    <meta property="og:description" content="Ingeniería informática, ciberseguridad, inteligencia artificial y desarrollo de software con propósito." />
+    <meta property="og:url" content="https://alejandrodart.github.io/" />
+    <meta property="og:image" content="https://alejandrodart.github.io/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Alejandro Mayró Lena | Ingeniería, IA y Ciberseguridad" />
+    <meta name="twitter:description" content="Ingeniería informática, ciberseguridad, inteligencia artificial y desarrollo de software con propósito." />
+    <meta name="twitter:image" content="https://alejandrodart.github.io/og.png" />
+    <title>Alejandro Mayró Lena | Ingeniería, IA y Ciberseguridad</title>
+    <script>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem("am-theme") === "light" ? "light" : "dark";
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
+    <link rel="icon" type="image/png" href="assets/am-cyberbot-logo-web.png" />
+    <link rel="apple-touch-icon" href="assets/am-cyberbot-logo-web.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-fill"></span></div>
+    <div class="engineering-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
-  <style>
-    :root {
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --primary: #3b82f6;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --radius: 14px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(180deg, #eef2ff, var(--bg));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-    }
-
-    .card {
-      background: var(--card);
-      padding: 40px 36px;
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 520px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    h1 {
-      margin: 0 0 6px;
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      margin-bottom: 28px;
-      font-size: 15px;
-    }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .link-card {
-      display: block;
-      padding: 16px 18px;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.2s ease;
-    }
-
-    .link-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
-      transform: translateY(-1px);
-    }
-
-    .link-title {
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .link-desc {
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    footer {
-      margin-top: 32px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-  </style>
-</head>
-
-<body>
-  <main class="card">
-    <h1>Alejandro Mayró Lena</h1>
-    <div class="subtitle">Desarrollador de aplicaciones</div>
-
-    <div class="section-title">Aplicaciones publicadas</div>
-
-    <a class="link-card" href="/escala-promedio/">
-      <div class="link-title">Escala y Promedio</div>
-      <div class="link-desc">
-        Política de privacidad de la aplicación
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio"><img src="assets/am-cyberbot-logo-web.png" alt="" width="42" height="42" /><span class="brand-word">AM<span>/</span>SYS</span></a>
+      <nav aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#perfil">Perfil</a>
+        <a href="#formacion">Formación</a>
+        <a href="#certificaciones">Certificaciones</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#tecnologias">Tecnologías</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Activar tema claro" title="Activar tema claro">
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.1A8.4 8.4 0 0 1 8.9 3.6 8.8 8.8 0 1 0 20.4 15.1Z"></path></svg>
+      </button>
+      <div class="chile-clock" title="Hora oficial de Chile continental">
+        <i class="clock-pulse" aria-hidden="true"></i>
+        <span class="clock-zone">HORA CHILE</span>
+        <time id="chile-clock" datetime="">--:--:--</time>
       </div>
-    </a>
+    </header>
 
-    <footer>
-      © 2026 · AlejandroDart
-    </footer>
-  </main>
-</body>
+    <main id="inicio">
+      <section class="hero" aria-labelledby="titulo-principal">
+        <div class="hero-copy">
+          <p class="eyebrow">// INGENIERÍA · CIBERSEGURIDAD · INTELIGENCIA ARTIFICIAL</p>
+          <h1 id="titulo-principal">Diseño sistemas.<br /><em>Protejo futuros.</em></h1>
+          <p class="intro">Soy <strong>Alejandro Mayró Lena</strong>, Ingeniero en Informática e Ingeniero en Ciberseguridad. Actualmente curso Ingeniería Civil Informática y conecto software, datos e inteligencia artificial con una visión responsable de la seguridad.</p>
+          <div class="cta-row">
+            <a class="button primary" href="#proyectos">Explorar proyectos <span>↓</span></a>
+            <a class="button secondary" href="https://github.com/AlejandroDart" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
+          </div>
+        </div>
+
+        <div class="identity-card" id="game-trigger" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Iniciar Cyber Catch desde la tarjeta profesional">
+          <div class="card-meta"><span>PROFILE // CL</span><span>2026</span></div>
+          <div class="portrait-frame">
+            <img src="assets/alejandro-avatar-web.png" alt="Retrato ilustrado de Alejandro Mayró Lena" width="230" height="230" fetchpriority="high" />
+            <span class="portrait-ring" aria-hidden="true"></span>
+          </div>
+          <div class="card-data">
+            <div><small>IDENTIDAD</small><strong>ALEJANDRO MAYRÓ LENA</strong></div>
+            <span class="verified">✓</span>
+          </div>
+          <span class="game-hint">PLAY // CYBER CATCH</span>
+          <div class="reflection" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Resumen profesional">
+        <article><strong>02</strong><span>Títulos<br />profesionales</span></article>
+        <article><strong>01</strong><span>Ingeniería<br />en curso</span></article>
+        <article><strong>19</strong><span>Cursos y<br />certificaciones</span></article>
+        <article><strong>03</strong><span>Proyectos<br />destacados</span></article>
+      </section>
+
+      <section id="perfil" class="section-grid profile" aria-labelledby="perfil-titulo">
+        <div class="section-label"><span>01</span><p>PERFIL</p></div>
+        <div class="section-content">
+          <p class="eyebrow">// PROPÓSITO PROFESIONAL</p>
+          <h2 id="perfil-titulo">Tecnología, criterio y<br /><em>vocación de servicio.</em></h2>
+          <div class="prose-grid">
+            <p>Mi camino profesional se mueve entre la construcción de soluciones digitales y el resguardo de sus activos críticos. Soy parte de <strong>Carabineros de Chile</strong>, aportando una mirada técnica, responsable y orientada a la mejora continua.</p>
+            <p>Me interesan los desafíos donde la informática, los datos y la ciberseguridad se convierten en herramientas concretas para resolver problemas complejos y generar confianza.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="formacion" class="section-grid education" aria-labelledby="formacion-titulo">
+        <div class="section-label"><span>02</span><p>FORMACIÓN</p></div>
+        <div class="section-content">
+          <p class="eyebrow">// TRAYECTORIA ACADÉMICA</p>
+          <h2 id="formacion-titulo">Base sólida.<br /><em>Aprendizaje continuo.</em></h2>
+          <div class="timeline">
+            <article class="timeline-card current">
+              <span class="node"></span><p class="timeline-kicker">EN CURSO · 2025—2026</p>
+              <h3>Ingeniería Civil Informática</h3>
+              <p>Especialización progresiva en ciencia de datos, inteligencia artificial, modelamiento y tecnologías del software.</p>
+            </article>
+            <article class="timeline-card">
+              <span class="node"></span><p class="timeline-kicker">LICENCIADO · 2025—2026 · NOTA 6.8</p>
+              <h3>Licenciatura en Ciencias de la Ingeniería</h3>
+              <p>Ciencias básicas y fundamentos de ingeniería aplicados al análisis, modelamiento y resolución de problemas complejos.</p>
+            </article>
+            <article class="timeline-card">
+              <span class="node"></span><p class="timeline-kicker">TITULADO · 2023—2025 · NOTA 6.8</p>
+              <h3>Ingeniería en Ciberseguridad</h3>
+              <p>Licenciado en Ingeniería. Título obtenido con máxima distinción académica <em>Summa Cum Laude</em> y reconocimiento a la excelencia académica.</p>
+            </article>
+            <article class="timeline-card">
+              <span class="node"></span><p class="timeline-kicker">TITULADO · 2018—2022 · NOTA 6.3</p>
+              <h3>Ingeniería en Informática</h3>
+              <p>Licenciado en Informática. Formación previa como Analista Programador y título profesional con distinción; 2.º lugar entre 25 egresados.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="certificaciones" class="section-grid certifications" aria-labelledby="certificaciones-titulo">
+        <div class="section-label"><span>03</span><p>CERTIFICACIONES</p></div>
+        <div class="section-content">
+          <p class="eyebrow">// FORMACIÓN COMPLEMENTARIA</p>
+          <h2 id="certificaciones-titulo">Aprender, aplicar,<br /><em>evolucionar.</em></h2>
+          <div class="cert-groups">
+            <article class="cert-year">
+              <div><strong>2026</strong><span>12 credenciales</span></div>
+              <ul>
+                <li>Data Classification and Summarization Using IBM Granite</li><li>Generative AI Essentials: Using LLMs to Work with Data</li><li>Code Generation and Optimization Using IBM Granite</li><li>Generative AI in Action</li><li>Artificial Intelligence Fundamentals</li><li>Getting Started with Artificial Intelligence</li><li>Fundamentals of Sustainability and Technology</li><li>Working in a Digital World: Professional Skills</li><li>Agile Explorer</li><li>Career Management Essentials</li><li>Digital Mindset</li><li>Explore Emerging Tech</li>
+              </ul>
+            </article>
+            <article class="cert-year">
+              <div><strong>2025</strong><span>3 credenciales</span></div>
+              <ul><li>Técnicas de Machine Learning · Nota 6.9</li><li>Diplomado en Ciberseguridad: Critical Infrastructure Protection · Nota 7.0</li><li>Fundamentos en Seguridad en Redes V.5</li></ul>
+            </article>
+            <article class="cert-year compact">
+              <div><strong>2018—2024</strong><span>4 credenciales</span></div>
+              <ul><li>IBM Artificial Intelligence Practitioner Certificate</li><li>Digital Transformation Management</li><li>Arduino Certification</li><li>Certificación de Inglés — Upper Waystage</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="proyectos" class="section-grid projects" aria-labelledby="proyectos-titulo">
+        <div class="section-label"><span>04</span><p>PROYECTOS</p></div>
+        <div class="section-content">
+          <p class="eyebrow">// SELECCIÓN DESTACADA</p>
+          <h2 id="proyectos-titulo">Ideas que se convierten<br /><em>en sistemas reales.</em></h2>
+          <div class="project-grid">
+            <a class="project-card featured" href="https://github.com/AlejandroDart/phishing-url-classifier" target="_blank" rel="noreferrer">
+              <div class="project-top"><span>01 · CIBERSEGURIDAD + IA</span><span>↗</span></div>
+              <div class="project-body">
+                <div><p class="project-name">LinkShield AI</p><h3>Clasificación explicable de URLs maliciosas.</h3></div>
+                <p>Aplicación Flutter y API Flask con 14 modelos, ensamble híbrido, explicabilidad y asistencia multiagente con RAG. Su modelo recomendado alcanza un F1-score de 95,00 %.</p>
+              </div>
+              <div class="project-tags"><span>Flutter</span><span>Python</span><span>Flask</span><span>Machine Learning</span><span>PostgreSQL</span><span>RAG</span></div>
+            </a>
+            <a class="project-card" href="https://github.com/AlejandroDart/fake-news-system" target="_blank" rel="noreferrer">
+              <div class="project-top"><span>02 · IA APLICADA</span><span>↗</span></div>
+              <p class="project-name">Fake News System</p>
+              <h3>Detección inteligente de noticias falsas.</h3>
+              <p>Sistema full stack con Laravel, API Flask, PostgreSQL y un modelo BiLSTM para clasificación y trazabilidad de resultados.</p>
+              <div class="project-tags"><span>Laravel</span><span>Python</span><span>BiLSTM</span><span>PostgreSQL</span></div>
+            </a>
+            <a class="project-card" href="https://github.com/AlejandroDart/FoodPlease" target="_blank" rel="noreferrer">
+              <div class="project-top"><span>03 · MOBILE</span><span>↗</span></div>
+              <p class="project-name">Cybernetic FoodPlease</p>
+              <h3>Gestión móvil de pedidos para restaurantes.</h3>
+              <p>Proyecto académico colaborativo en Flutter con QR, pedidos en tiempo real, control por mesero y API propia en Python.</p>
+              <div class="project-tags"><span>Flutter</span><span>Dart</span><span>Python</span><span>SQLite</span></div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="tecnologias" class="section-grid technologies" aria-labelledby="tecnologias-titulo">
+        <div class="section-label"><span>05</span><p>TECNOLOGÍAS</p></div>
+        <div class="section-content">
+          <p class="eyebrow">// STACK Y CAPACIDADES</p>
+          <h2 id="tecnologias-titulo">Herramientas para construir,<br /><em>analizar y proteger.</em></h2>
+          <div class="tech-grid">
+            <article><span class="tech-number">01</span><h3>Lenguajes</h3><div><span>Python</span><span>Dart</span><span>PHP</span><span>C++</span><span>SQL</span><span>R</span></div></article>
+            <article><span class="tech-number">02</span><h3>Aplicaciones y APIs</h3><div><span>Flutter</span><span>Laravel</span><span>Flask</span><span>FastAPI</span><span>REST</span></div></article>
+            <article><span class="tech-number">03</span><h3>Datos</h3><div><span>PostgreSQL</span><span>SQLite</span><span>Pandas</span><span>NumPy</span><span>Scikit-learn</span></div></article>
+            <article><span class="tech-number">04</span><h3>Inteligencia artificial</h3><div><span>Machine Learning</span><span>Deep Learning</span><span>TensorFlow</span><span>Keras</span><span>LLM</span><span>RAG</span></div></article>
+            <article><span class="tech-number">05</span><h3>Ingeniería</h3><div><span>Arquitectura de software</span><span>Modelamiento</span><span>Algoritmos</span><span>DevSecOps</span></div></article>
+            <article><span class="tech-number">06</span><h3>Ciberseguridad</h3><div><span>Hacking ético</span><span>Seguridad de redes</span><span>Análisis de riesgos</span><span>Explicabilidad</span></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacto" class="contact" aria-labelledby="contacto-titulo">
+        <p class="eyebrow">// SIGAMOS CONECTADOS</p>
+        <h2 id="contacto-titulo">Construyamos un entorno<br /><em>digital más seguro.</em></h2>
+        <p class="contact-copy">Tecnología con propósito, ingeniería con criterio.</p>
+        <div class="contact-links">
+          <a href="https://github.com/AlejandroDart" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/github/FFFFFF" alt="" width="18" height="18" referrerpolicy="no-referrer" /><span>GitHub</span></a>
+          <a href="https://www.linkedin.com/in/amavr6" target="_blank" rel="noreferrer"><span class="social-mark linkedin" aria-hidden="true">in</span><span>LinkedIn</span></a>
+        </div>
+        <div class="contact-brand" aria-label="Identidad visual AM Cyberbot">
+          <img src="assets/am-cyberbot-logo-web.png" alt="Logotipo AM Cyberbot" width="88" height="88" loading="lazy" decoding="async" />
+        </div>
+      </section>
+    </main>
+
+    <div class="game-overlay" id="game-overlay" role="dialog" aria-modal="true" aria-labelledby="game-title" aria-describedby="game-help" hidden>
+      <section class="game-shell">
+        <header class="game-header">
+          <div>
+            <p class="game-kicker">// EASTER EGG ACTIVADO</p>
+            <h2 id="game-title">Cyber Catch <em>// CL</em></h2>
+          </div>
+          <button class="game-close" id="game-close" type="button" aria-label="Cerrar juego">×</button>
+        </header>
+
+        <div class="game-hud" aria-label="Marcador del juego">
+          <div><span>ATRAPADOS</span><strong id="game-caught">00</strong></div>
+          <div><span>PERDIDOS</span><strong id="game-missed">00</strong></div>
+          <div><span>RESTANTES</span><strong id="game-remaining">24</strong></div>
+          <div><span>PUNTOS</span><strong id="game-score">0000</strong></div>
+        </div>
+        <div class="game-progress" aria-hidden="true"><span id="game-progress-fill"></span></div>
+
+        <div class="game-field" id="game-field">
+          <p class="game-help" id="game-help">Atrapa las esferas antes de que lleguen al final.</p>
+          <div class="game-result" id="game-result" hidden>
+            <p>// SESIÓN COMPLETADA</p>
+            <strong id="game-final-score">0000 PTS</strong>
+            <span id="game-final-detail">0 de 24 objetivos atrapados</span>
+            <button type="button" id="game-restart">Jugar nuevamente</button>
+          </div>
+        </div>
+        <p class="sr-status" id="game-status" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <a class="back-top" href="#inicio" aria-label="Volver al inicio">↑</a>
+    <footer><span>© 2026 ALEJANDRO MAYRÓ LENA <span id="local-surprise-slot"></span></span><span>INGENIERÍA · CHILE</span></footer>
+    <script src="script.js" defer></script>
+  </body>
 </html>
