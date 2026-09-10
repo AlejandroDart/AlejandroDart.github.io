@@ -2,6 +2,8 @@
 
 Portafolio estático con estética de cristal, navegación fija, formación, certificaciones, proyectos destacados y tecnologías. Diseñado para GitHub Pages.
 
+Incluye el easter egg romántico público del pie de página.
+
 ## Sitio
 
 https://alejandrodart.github.io/
