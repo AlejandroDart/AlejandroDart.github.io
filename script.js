@@ -9,6 +9,12 @@ const themeToggle = document.querySelector("#theme-toggle");
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const engineeringBackground = document.querySelector(".engineering-bg");
 const dataRain = document.querySelector("#data-rain");
+const techCursor = document.querySelector("#tech-cursor");
+const cursorToggle = document.querySelector("#cursor-toggle");
+const systemToggle = document.querySelector("#system-toggle");
+const systemToast = document.querySelector("#system-toast");
+const systemReadout = document.querySelector(".hero-system-readout span");
+const finePointer = window.matchMedia("(pointer: fine)");
 
 function buildDataRain() {
   if (!dataRain) return;
@@ -37,27 +43,103 @@ function buildDataRain() {
 buildDataRain();
 
 let ambientPointerFrame = 0;
+let cursorEnabled = finePointer.matches;
+try { cursorEnabled = finePointer.matches && localStorage.getItem("am-cursor-enabled") !== "false"; } catch { /* Usa el valor predeterminado. */ }
+
 function setAmbientPosition(x = 0, y = 0) {
   if (!engineeringBackground) return;
   engineeringBackground.style.setProperty("--ambient-x", `${x.toFixed(2)}px`);
   engineeringBackground.style.setProperty("--ambient-y", `${y.toFixed(2)}px`);
 }
 
+function applyCursorState(enabled, persist = true) {
+  cursorEnabled = Boolean(enabled && finePointer.matches && !reduceMotion.matches);
+  document.body.classList.toggle("cursor-disabled", !cursorEnabled);
+  cursorToggle.hidden = !finePointer.matches;
+  cursorToggle.setAttribute("aria-pressed", String(cursorEnabled));
+  cursorToggle.setAttribute("aria-label", cursorEnabled ? "Desactivar cursor tecnológico" : "Activar cursor tecnológico");
+  cursorToggle.title = cursorEnabled ? "Desactivar cursor tecnológico" : "Activar cursor tecnológico";
+  cursorToggle.textContent = cursorEnabled ? "◎" : "○";
+  if (persist) {
+    try { localStorage.setItem("am-cursor-enabled", String(cursorEnabled)); } catch { /* El cursor continúa sin persistencia. */ }
+  }
+}
+
+function createCursorSpark(x, y) {
+  const spark = document.createElement("i");
+  spark.className = "cursor-spark";
+  spark.style.left = `${x}px`;
+  spark.style.top = `${y}px`;
+  document.body.appendChild(spark);
+  window.setTimeout(() => spark.remove(), 520);
+}
+
+let lastCursorSpark = 0;
 window.addEventListener("pointermove", (event) => {
   if (reduceMotion.matches || event.pointerType === "touch") return;
   const horizontal = (event.clientX / window.innerWidth - .5) * -12;
   const vertical = (event.clientY / window.innerHeight - .5) * -9;
   window.cancelAnimationFrame(ambientPointerFrame);
-  ambientPointerFrame = window.requestAnimationFrame(() => setAmbientPosition(horizontal, vertical));
+  ambientPointerFrame = window.requestAnimationFrame(() => {
+    setAmbientPosition(horizontal, vertical);
+    document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
+    document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+    document.body.classList.add("pointer-active");
+    if (cursorEnabled && techCursor) {
+      techCursor.style.transform = `translate3d(${event.clientX}px,${event.clientY}px,0)`;
+      techCursor.classList.add("visible");
+    }
+  });
+  if (cursorEnabled && event.timeStamp - lastCursorSpark > 46) {
+    lastCursorSpark = event.timeStamp;
+    createCursorSpark(event.clientX, event.clientY);
+  }
 }, { passive:true });
 
 document.documentElement.addEventListener("mouseleave", () => {
   if (!reduceMotion.matches) setAmbientPosition();
+  document.body.classList.remove("pointer-active");
+  techCursor?.classList.remove("visible");
 });
 
 reduceMotion.addEventListener?.("change", (event) => {
   if (event.matches) setAmbientPosition();
   buildDataRain();
+  applyCursorState(cursorEnabled, false);
+});
+
+cursorToggle.addEventListener("click", () => applyCursorState(!cursorEnabled));
+applyCursorState(cursorEnabled, false);
+
+let systemActive = false;
+let systemToastTimer = 0;
+function showSystemToast(message) {
+  systemToast.textContent = message;
+  systemToast.classList.add("visible");
+  window.clearTimeout(systemToastTimer);
+  systemToastTimer = window.setTimeout(() => systemToast.classList.remove("visible"), 2600);
+}
+
+function setSystemActive(active) {
+  systemActive = Boolean(active);
+  document.body.classList.toggle("system-active", systemActive);
+  systemToggle.setAttribute("aria-pressed", String(systemActive));
+  systemToggle.setAttribute("aria-label", systemActive ? "Desactivar modo Sistema Activo" : "Activar modo Sistema Activo");
+  systemToggle.title = systemActive ? "Desactivar modo Sistema Activo" : "Activar modo Sistema Activo";
+  systemReadout.textContent = systemActive ? "AM/SYS ACTIVO · TODOS LOS MÓDULOS EN LÍNEA" : "AM/SYS EN ESPERA · PRESIONA EL LOGOTIPO";
+  showSystemToast(systemActive ? "AM/SYS // SISTEMA ACTIVO" : "AM/SYS // MODO EN ESPERA");
+}
+
+systemToggle.addEventListener("click", () => setSystemActive(!systemActive));
+
+document.querySelectorAll(".button, .theme-toggle, .terminal-toggle, .cursor-toggle, .contact-links a").forEach((element) => {
+  element.classList.add("magnetic");
+  element.addEventListener("pointermove", (event) => {
+    if (!finePointer.matches || reduceMotion.matches) return;
+    const rect = element.getBoundingClientRect();
+    element.style.translate = `${(event.clientX - rect.left - rect.width / 2) * .075}px ${(event.clientY - rect.top - rect.height / 2) * .075}px`;
+  });
+  element.addEventListener("pointerleave", () => { element.style.translate = "0 0"; });
 });
 
 function applyTheme(theme, persist = true) {
@@ -171,6 +253,194 @@ updateClock();
 window.setInterval(updateClock, 1000);
 updateScrollState();
 
+/* Secuencia de inicialización AM/SYS */
+const bootScreen = document.querySelector("#boot-screen");
+const bootStatus = document.querySelector("#boot-status");
+const bootPending = document.documentElement.classList.contains("boot-pending");
+let bootTimers = [];
+
+function completeBoot() {
+  document.body.classList.add("interface-ready");
+  document.documentElement.classList.remove("boot-pending");
+  bootScreen?.classList.add("complete");
+  if (bootScreen) {
+    bootScreen.style.opacity = "0";
+    bootScreen.style.pointerEvents = "none";
+    window.setTimeout(() => {
+      bootScreen.style.removeProperty("visibility");
+      bootScreen.style.removeProperty("opacity");
+      bootScreen.style.removeProperty("pointer-events");
+    }, 620);
+  }
+  try { localStorage.setItem("am-v4-premium-boot-seen", "true"); } catch { /* La introducción continúa funcionando sin almacenamiento. */ }
+}
+
+function playBootSequence() {
+  if (!bootScreen || reduceMotion.matches) {
+    completeBoot();
+    return;
+  }
+  bootTimers.forEach((timer) => window.clearTimeout(timer));
+  bootTimers = [];
+  document.documentElement.classList.add("boot-pending");
+  document.body.classList.add("booting");
+  document.body.classList.remove("interface-ready");
+  bootScreen.classList.remove("complete");
+  bootScreen.style.visibility = "visible";
+  bootScreen.style.opacity = "1";
+  bootScreen.style.pointerEvents = "auto";
+  const bootBar = bootScreen.querySelector(".boot-progress span");
+  bootBar.style.animation = "none";
+  void bootBar.offsetWidth;
+  bootBar.style.removeProperty("animation");
+  bootStatus.textContent = "Verificando arquitectura...";
+  bootTimers.push(window.setTimeout(() => { bootStatus.textContent = "Sincronizando módulos de ingeniería..."; }, 620));
+  bootTimers.push(window.setTimeout(() => { bootStatus.textContent = "Activando interfaz holográfica..."; }, 1250));
+  bootTimers.push(window.setTimeout(() => {
+    bootStatus.textContent = "Sistema listo.";
+    completeBoot();
+    window.setTimeout(() => document.body.classList.remove("booting"), 650);
+  }, 2050));
+}
+
+if (bootPending && bootScreen) {
+  playBootSequence();
+} else {
+  window.requestAnimationFrame(() => document.body.classList.add("interface-ready"));
+}
+
+/* Proyectos interactivos */
+document.querySelectorAll(".project-card").forEach((card) => {
+  card.addEventListener("pointermove", (event) => {
+    if (!finePointer.matches || reduceMotion.matches) return;
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty("--project-x", `${event.clientX - rect.left}px`);
+    card.style.setProperty("--project-y", `${event.clientY - rect.top}px`);
+  });
+});
+
+/* Constelación tecnológica */
+const techMap = document.querySelector("#tech-map");
+const techNodes = [...document.querySelectorAll(".tech-node")];
+const techEdges = [...document.querySelectorAll(".tech-edges .edge")];
+let selectedTechnology = "";
+
+function highlightTechnology(technology = "") {
+  techMap?.classList.toggle("exploring", Boolean(technology));
+  techNodes.forEach((node) => node.classList.toggle("active", node.dataset.tech === technology));
+  techEdges.forEach((edge) => edge.classList.toggle("active", Boolean(technology && edge.classList.contains(technology))));
+}
+
+techNodes.forEach((node) => {
+  node.addEventListener("pointerenter", () => highlightTechnology(node.dataset.tech));
+  node.addEventListener("pointerleave", () => highlightTechnology(selectedTechnology));
+  node.addEventListener("focus", () => highlightTechnology(node.dataset.tech));
+  node.addEventListener("blur", () => highlightTechnology(selectedTechnology));
+  node.addEventListener("click", () => {
+    selectedTechnology = selectedTechnology === node.dataset.tech ? "" : node.dataset.tech;
+    highlightTechnology(selectedTechnology);
+  });
+});
+
+/* Terminal personal */
+const terminalToggle = document.querySelector("#terminal-toggle");
+const terminalModal = document.querySelector("#terminal-modal");
+const terminalClose = document.querySelector("#terminal-close");
+const terminalOutput = document.querySelector("#terminal-output");
+const terminalForm = document.querySelector("#terminal-form");
+const terminalInput = document.querySelector("#terminal-input");
+let terminalReturnFocus = terminalToggle;
+
+function appendTerminalLine(text, type = "response") {
+  const line = document.createElement("p");
+  line.className = `terminal-${type}`;
+  line.textContent = text;
+  terminalOutput.appendChild(line);
+  terminalOutput.scrollTop = terminalOutput.scrollHeight;
+}
+
+function openTerminal() {
+  terminalReturnFocus = document.activeElement;
+  terminalModal.hidden = false;
+  document.body.classList.add("terminal-open");
+  window.requestAnimationFrame(() => terminalModal.classList.add("visible"));
+  window.setTimeout(() => terminalInput.focus(), reduceMotion.matches ? 0 : 220);
+}
+
+function closeTerminal() {
+  terminalModal.classList.remove("visible");
+  document.body.classList.remove("terminal-open");
+  const finish = () => {
+    terminalModal.hidden = true;
+    if (terminalReturnFocus instanceof HTMLElement) terminalReturnFocus.focus();
+  };
+  if (reduceMotion.matches) finish();
+  else window.setTimeout(finish, 220);
+}
+
+function executeTerminalCommand(rawCommand) {
+  const command = rawCommand.trim().toLocaleLowerCase("es");
+  if (!command) return;
+  appendTerminalLine(`alejandro@am-sys:~$ ${command}`, "command");
+
+  const responses = {
+    ayuda: "Comandos disponibles: perfil, proyectos, stack, contacto, anita, sistema, cursor, hora, limpiar.",
+    perfil: "Alejandro Mayró Lena // Ingeniería informática, ciberseguridad e Ingeniería Civil Informática en curso.",
+    proyectos: "03 sistemas destacados: LinkShield AI, Fake News System y Cybernetic FoodPlease.",
+    stack: "Python · Dart · Flutter · Laravel · Flask · C++ · PostgreSQL · Machine Learning · LLM · RAG.",
+    contacto: "GitHub: @AlejandroDart // LinkedIn: linkedin.com/in/amavr6",
+    hora: `Hora de Chile: ${clock.textContent}`,
+  };
+
+  if (command === "limpiar" || command === "clear") {
+    terminalOutput.replaceChildren();
+    appendTerminalLine("Consola limpia. AM/SYS continúa conectado.", "system");
+  } else if (command === "sistema") {
+    setSystemActive(!systemActive);
+    appendTerminalLine(systemActive ? "Modo Sistema Activo habilitado." : "Modo Sistema Activo deshabilitado.", "success");
+  } else if (command === "cursor") {
+    applyCursorState(!cursorEnabled);
+    appendTerminalLine(cursorEnabled ? "Cursor tecnológico habilitado." : "Cursor tecnológico deshabilitado.", "success");
+  } else if (command === "anita") {
+    appendTerminalLine("Abriendo protocolo romántico para Anita Cárdenas González...", "success");
+    const loveTrigger = document.querySelector(".secret-love-trigger");
+    if (loveTrigger) {
+      window.setTimeout(() => { closeTerminal(); window.setTimeout(() => loveTrigger.click(), 250); }, 380);
+    } else {
+      appendTerminalLine("El módulo romántico todavía se está cargando. Inténtalo nuevamente.", "error");
+    }
+  } else if (responses[command]) {
+    appendTerminalLine(responses[command]);
+  } else {
+    appendTerminalLine(`Comando no reconocido: ${command}. Escribe ayuda.`, "error");
+  }
+}
+
+terminalToggle.addEventListener("click", openTerminal);
+terminalClose.addEventListener("click", closeTerminal);
+terminalForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  executeTerminalCommand(terminalInput.value);
+  terminalInput.value = "";
+});
+document.querySelectorAll(".terminal-quick [data-command]").forEach((button) => {
+  button.addEventListener("click", () => {
+    executeTerminalCommand(button.dataset.command);
+    terminalInput.focus();
+  });
+});
+terminalModal.addEventListener("click", (event) => {
+  if (event.target === terminalModal) closeTerminal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "`" && terminalModal.hidden && !event.ctrlKey && !event.metaKey) {
+    event.preventDefault();
+    openTerminal();
+  } else if (!terminalModal.hidden && event.key === "Escape") {
+    closeTerminal();
+  }
+});
+
 /* Cyber Catch // CL */
 const gameTrigger = document.querySelector("#game-trigger");
 const gameOverlay = document.querySelector("#game-overlay");
@@ -186,6 +456,26 @@ const gameProgress = document.querySelector("#game-progress-fill");
 const gameFinalScore = document.querySelector("#game-final-score");
 const gameFinalDetail = document.querySelector("#game-final-detail");
 const gameStatus = document.querySelector("#game-status");
+
+function resetIdentityCard() {
+  gameTrigger.style.setProperty("--card-rx", "0deg");
+  gameTrigger.style.setProperty("--card-ry", "0deg");
+  gameTrigger.style.setProperty("--card-shine-x", "50%");
+  gameTrigger.style.setProperty("--card-shine-y", "35%");
+}
+
+gameTrigger.addEventListener("pointermove", (event) => {
+  if (!finePointer.matches || reduceMotion.matches) return;
+  const rect = gameTrigger.getBoundingClientRect();
+  const normalizedX = (event.clientX - rect.left) / rect.width - .5;
+  const normalizedY = (event.clientY - rect.top) / rect.height - .5;
+  gameTrigger.style.setProperty("--card-rx", `${(-normalizedY * 5.5).toFixed(2)}deg`);
+  gameTrigger.style.setProperty("--card-ry", `${(normalizedX * 7).toFixed(2)}deg`);
+  gameTrigger.style.setProperty("--card-shine-x", `${((normalizedX + .5) * 100).toFixed(1)}%`);
+  gameTrigger.style.setProperty("--card-shine-y", `${((normalizedY + .5) * 100).toFixed(1)}%`);
+});
+gameTrigger.addEventListener("pointerleave", resetIdentityCard);
+resetIdentityCard();
 
 const GAME_TOTAL = 24;
 const gameTargets = [

@@ -19,6 +19,9 @@
     <script>
       try {
         document.documentElement.dataset.theme = localStorage.getItem("am-theme") === "light" ? "light" : "dark";
+        if (!localStorage.getItem("am-v4-premium-boot-seen") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("boot-pending");
+        }
       } catch {
         document.documentElement.dataset.theme = "dark";
       }
@@ -31,14 +34,33 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="boot-screen" id="boot-screen" aria-hidden="true">
+      <div class="boot-core">
+        <div class="boot-logo"><img src="assets/am-cyberbot-logo-web.png" alt="" width="84" height="84" /></div>
+        <p>// AM/SYS · INGENIERÍA DIGITAL</p>
+        <strong>Inicializando sistema</strong>
+        <div class="boot-progress"><span></span></div>
+        <small id="boot-status">Verificando arquitectura...</small>
+      </div>
+    </div>
+
     <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-fill"></span></div>
     <div class="engineering-bg" aria-hidden="true">
       <div class="data-rain" id="data-rain"></div>
       <i></i><i></i><i></i><i></i>
     </div>
+    <div class="holo-blueprint" id="holo-blueprint" aria-hidden="true">
+      <span style="--hx:9%;--hy:22%">∇ · F(x) = Σ wᵢxᵢ</span>
+      <span style="--hx:69%;--hy:16%">SECURE // 256</span>
+      <span style="--hx:15%;--hy:72%">λ → MODEL</span>
+      <span style="--hx:74%;--hy:77%">{ DATA : TRUST }</span>
+      <span style="--hx:47%;--hy:46%">01001101 · AI</span>
+    </div>
+    <div class="tech-cursor" id="tech-cursor" aria-hidden="true"><i></i></div>
+    <div class="system-toast" id="system-toast" role="status" aria-live="polite"></div>
 
     <header class="topbar">
-      <a class="brand" href="#inicio" aria-label="Ir al inicio"><img src="assets/am-cyberbot-logo-web.png" alt="" width="42" height="42" /><span class="brand-word">AM<span>/</span>SYS</span></a>
+      <button class="brand" id="system-toggle" type="button" aria-pressed="false" aria-label="Activar modo Sistema Activo" title="Activar modo Sistema Activo"><img src="assets/am-cyberbot-logo-web.png" alt="" width="42" height="42" /><span class="brand-word">AM<span>/</span>SYS</span><i class="brand-status" aria-hidden="true"></i></button>
       <nav aria-label="Navegación principal">
         <a href="#inicio">Inicio</a>
         <a href="#perfil">Perfil</a>
@@ -48,6 +70,8 @@
         <a href="#tecnologias">Tecnologías</a>
         <a href="#contacto">Contacto</a>
       </nav>
+      <button class="terminal-toggle" id="terminal-toggle" type="button" aria-haspopup="dialog" aria-controls="terminal-modal" aria-label="Abrir terminal personal" title="Abrir terminal personal">&gt;_</button>
+      <button class="cursor-toggle" id="cursor-toggle" type="button" aria-pressed="true" aria-label="Desactivar cursor tecnológico" title="Desactivar cursor tecnológico">◎</button>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Activar tema claro" title="Activar tema claro">
         <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>
         <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.1A8.4 8.4 0 0 1 8.9 3.6 8.8 8.8 0 1 0 20.4 15.1Z"></path></svg>
@@ -69,6 +93,7 @@
             <a class="button primary" href="#proyectos">Explorar proyectos <span>↓</span></a>
             <a class="button secondary" href="https://github.com/AlejandroDart" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
           </div>
+          <div class="hero-system-readout" aria-live="polite"><i></i><span>AM/SYS EN ESPERA · PRESIONA EL LOGOTIPO</span></div>
         </div>
 
         <div class="identity-card" id="game-trigger" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Iniciar Cyber Catch desde la tarjeta profesional">
@@ -171,6 +196,10 @@
                 <div><p class="project-name">LinkShield AI</p><h3>Clasificación explicable de URLs maliciosas.</h3></div>
                 <p>Aplicación Flutter y API Flask con 14 modelos, ensamble híbrido, explicabilidad y asistencia multiagente con RAG. Su modelo recomendado alcanza un F1-score de 95,00 %.</p>
               </div>
+              <div class="project-preview" aria-hidden="true">
+                <div class="architecture-flow"><span>FLUTTER</span><b>→</b><span>FLASK API</span><b>→</b><span>ENSEMBLE ML</span><b>→</b><span>RAG</span></div>
+                <div class="preview-metrics"><span><strong>95,00 %</strong> F1-SCORE</span><span><strong>14</strong> MODELOS</span><span><strong>4 CAPAS</strong> ARQUITECTURA</span></div>
+              </div>
               <div class="project-tags"><span>Flutter</span><span>Python</span><span>Flask</span><span>Machine Learning</span><span>PostgreSQL</span><span>RAG</span></div>
             </a>
             <a class="project-card" href="https://github.com/AlejandroDart/fake-news-system" target="_blank" rel="noreferrer">
@@ -178,6 +207,10 @@
               <p class="project-name">Fake News System</p>
               <h3>Detección inteligente de noticias falsas.</h3>
               <p>Sistema full stack con Laravel, API Flask, PostgreSQL y un modelo BiLSTM para clasificación y trazabilidad de resultados.</p>
+              <div class="project-preview" aria-hidden="true">
+                <div class="architecture-flow"><span>LARAVEL</span><b>→</b><span>FLASK</span><b>→</b><span>BiLSTM</span></div>
+                <div class="preview-metrics"><span><strong>NLP</strong> MOTOR</span><span><strong>SQL</strong> TRAZABILIDAD</span></div>
+              </div>
               <div class="project-tags"><span>Laravel</span><span>Python</span><span>BiLSTM</span><span>PostgreSQL</span></div>
             </a>
             <a class="project-card" href="https://github.com/AlejandroDart/FoodPlease" target="_blank" rel="noreferrer">
@@ -185,6 +218,10 @@
               <p class="project-name">Cybernetic FoodPlease</p>
               <h3>Gestión móvil de pedidos para restaurantes.</h3>
               <p>Proyecto académico colaborativo en Flutter con QR, pedidos en tiempo real, control por mesero y API propia en Python.</p>
+              <div class="project-preview" aria-hidden="true">
+                <div class="architecture-flow"><span>FLUTTER</span><b>→</b><span>QR</span><b>→</b><span>PYTHON API</span></div>
+                <div class="preview-metrics"><span><strong>REAL TIME</strong> PEDIDOS</span><span><strong>MOBILE</strong> EXPERIENCIA</span></div>
+              </div>
               <div class="project-tags"><span>Flutter</span><span>Dart</span><span>Python</span><span>SQLite</span></div>
             </a>
           </div>
@@ -203,6 +240,28 @@
             <article><span class="tech-number">04</span><h3>Inteligencia artificial</h3><div><span>Machine Learning</span><span>Deep Learning</span><span>TensorFlow</span><span>Keras</span><span>LLM</span><span>RAG</span></div></article>
             <article><span class="tech-number">05</span><h3>Ingeniería</h3><div><span>Arquitectura de software</span><span>Modelamiento</span><span>Algoritmos</span><span>DevSecOps</span></div></article>
             <article><span class="tech-number">06</span><h3>Ciberseguridad</h3><div><span>Hacking ético</span><span>Seguridad de redes</span><span>Análisis de riesgos</span><span>Explicabilidad</span></div></article>
+          </div>
+          <div class="tech-map" id="tech-map" aria-label="Mapa interactivo de conexiones tecnológicas">
+            <div class="tech-map-head"><span>// CONSTELACIÓN TECNOLÓGICA</span><small>Explora las conexiones</small></div>
+            <svg class="tech-edges" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
+              <line class="edge python ia" x1="500" y1="250" x2="165" y2="145" />
+              <line class="edge flutter" x1="500" y1="250" x2="235" y2="385" />
+              <line class="edge ia llm" x1="500" y1="250" x2="500" y2="90" />
+              <line class="edge cyber ia" x1="500" y1="250" x2="820" y2="145" />
+              <line class="edge postgres flutter" x1="500" y1="250" x2="770" y2="390" />
+              <line class="edge llm" x1="500" y1="250" x2="520" y2="425" />
+              <line class="edge python ia llm" x1="165" y1="145" x2="500" y2="90" />
+              <line class="edge flutter postgres" x1="235" y1="385" x2="770" y2="390" />
+              <line class="edge ia cyber" x1="500" y1="90" x2="820" y2="145" />
+              <line class="edge ia llm" x1="500" y1="90" x2="520" y2="425" />
+            </svg>
+            <button class="tech-node node-python" type="button" data-tech="python"><span>PY</span><strong>Python</strong></button>
+            <button class="tech-node node-flutter" type="button" data-tech="flutter"><span>FL</span><strong>Flutter</strong></button>
+            <button class="tech-node node-ia" type="button" data-tech="ia"><span>AI</span><strong>Inteligencia artificial</strong></button>
+            <button class="tech-node node-cyber" type="button" data-tech="cyber"><span>CS</span><strong>Ciberseguridad</strong></button>
+            <button class="tech-node node-postgres" type="button" data-tech="postgres"><span>DB</span><strong>PostgreSQL</strong></button>
+            <button class="tech-node node-llm" type="button" data-tech="llm"><span>LLM</span><strong>Modelos generativos</strong></button>
+            <div class="tech-core" aria-hidden="true"><img src="assets/am-cyberbot-logo-web.png" alt="" width="68" height="68" /><span>AM/SYS</span></div>
           </div>
         </div>
       </section>
@@ -249,6 +308,33 @@
           </div>
         </div>
         <p class="sr-status" id="game-status" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <div class="terminal-modal" id="terminal-modal" role="dialog" aria-modal="true" aria-labelledby="terminal-title" hidden>
+      <section class="terminal-shell">
+        <header class="terminal-header">
+          <div class="terminal-lights" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div><span>AM/SYS // SECURE CONSOLE</span><strong id="terminal-title">Terminal personal</strong></div>
+          <button class="terminal-close" id="terminal-close" type="button" aria-label="Cerrar terminal">×</button>
+        </header>
+        <div class="terminal-output" id="terminal-output" role="log" aria-live="polite" aria-label="Salida de la terminal">
+          <p class="terminal-system">AM/SYS v4.0 conectado · Santiago, Chile</p>
+          <p>Escribe <b>ayuda</b> o selecciona un comando rápido.</p>
+        </div>
+        <div class="terminal-quick" aria-label="Comandos rápidos">
+          <button type="button" data-command="perfil">perfil</button>
+          <button type="button" data-command="proyectos">proyectos</button>
+          <button type="button" data-command="stack">stack</button>
+          <button type="button" data-command="contacto">contacto</button>
+          <button type="button" data-command="anita">anita</button>
+        </div>
+        <form class="terminal-form" id="terminal-form">
+          <label for="terminal-input">alejandro@am-sys:~$</label>
+          <input id="terminal-input" name="command" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="terminal-help" />
+          <button type="submit">Ejecutar</button>
+        </form>
+        <small id="terminal-help">Comandos: ayuda · perfil · proyectos · stack · contacto · anita · sistema · cursor · limpiar</small>
       </section>
     </div>
 
