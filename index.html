@@ -19,7 +19,7 @@
     <script>
       try {
         document.documentElement.dataset.theme = localStorage.getItem("am-theme") === "light" ? "light" : "dark";
-        if (!localStorage.getItem("am-v4-premium-boot-seen") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (!localStorage.getItem("am-v5-release-boot-seen") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           document.documentElement.classList.add("boot-pending");
         }
       } catch {
@@ -31,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=4.2.0" />
+    <link rel="stylesheet" href="styles.css?v=5.0.0" />
   </head>
   <body>
     <div class="boot-screen" id="boot-screen" aria-hidden="true">
@@ -71,6 +71,8 @@
         <a href="#contacto">Contacto</a>
       </nav>
       <button class="terminal-toggle" id="terminal-toggle" type="button" aria-haspopup="dialog" aria-controls="terminal-modal" aria-expanded="false" aria-keyshortcuts="`" aria-label="Abrir terminal personal" title="Abrir terminal personal">&gt;_</button>
+      <button class="command-toggle" id="command-toggle" type="button" aria-haspopup="dialog" aria-controls="command-palette" aria-expanded="false" aria-keyshortcuts="Control+K Meta+K" aria-label="Abrir paleta de comandos" title="Buscar y ejecutar comandos"><span aria-hidden="true">⌕</span><kbd>Ctrl K</kbd></button>
+      <button class="achievement-toggle" id="achievement-toggle" type="button" aria-haspopup="dialog" aria-controls="achievement-modal" aria-expanded="false" aria-label="Ver insignias obtenidas" title="Insignias AM/SYS"><span aria-hidden="true">◇</span><b id="achievement-count">0/5</b></button>
       <button class="cursor-toggle" id="cursor-toggle" type="button" aria-pressed="true" aria-label="Desactivar cursor tecnológico" title="Desactivar cursor tecnológico">◎</button>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Activar tema claro" title="Activar tema claro">
         <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>
@@ -116,6 +118,21 @@
         <article><strong>01</strong><span>Ingeniería<br />en curso</span></article>
         <article><strong>19</strong><span>Cursos y<br />certificaciones</span></article>
         <article><strong>03</strong><span>Proyectos<br />destacados</span></article>
+      </section>
+
+      <section class="telemetry-panel" aria-labelledby="telemetry-title">
+        <header class="telemetry-head">
+          <div><span class="telemetry-pulse" aria-hidden="true"></span><p>// AM/SYS TELEMETRY</p></div>
+          <strong id="telemetry-title">Sistema profesional en línea</strong>
+          <small id="telemetry-uptime">UPTIME 00:00:00</small>
+        </header>
+        <div class="telemetry-grid">
+          <article><span>SISTEMA OPERATIVO</span><strong class="telemetry-online">ONLINE</strong><i aria-hidden="true"></i></article>
+          <article><span>ZONA</span><strong>SANTIAGO, CHILE</strong><i aria-hidden="true"></i></article>
+          <article><span>ESPECIALIDADES</span><strong>06</strong><i aria-hidden="true"></i></article>
+          <article><span>PROYECTOS</span><strong>03</strong><i aria-hidden="true"></i></article>
+          <article><span>ESTADO PROFESIONAL</span><strong>APRENDIZAJE CONTINUO</strong><i aria-hidden="true"></i></article>
+        </div>
       </section>
 
       <section id="perfil" class="section-grid profile" aria-labelledby="perfil-titulo">
@@ -190,8 +207,8 @@
           <p class="eyebrow">// SELECCIÓN DESTACADA</p>
           <h2 id="proyectos-titulo">Ideas que se convierten<br /><em>en sistemas reales.</em></h2>
           <div class="project-grid">
-            <a class="project-card featured" href="https://github.com/AlejandroDart/phishing-url-classifier" target="_blank" rel="noreferrer">
-              <div class="project-top"><span>01 · CIBERSEGURIDAD + IA</span><span>↗</span></div>
+            <article class="project-card featured" data-project="phishing">
+              <div class="project-top"><span>01 · CIBERSEGURIDAD + IA</span><a class="project-repo" href="https://github.com/AlejandroDart/phishing-url-classifier" target="_blank" rel="noreferrer" aria-label="Abrir repositorio de LinkShield AI">REPO ↗</a></div>
               <div class="project-body">
                 <div><p class="project-name">LinkShield AI</p><h3>Clasificación explicable de URLs maliciosas.</h3></div>
                 <p>Aplicación Flutter y API Flask con 14 modelos, ensamble híbrido, explicabilidad y asistencia multiagente con RAG. Su modelo recomendado alcanza un F1-score de 95,00 %.</p>
@@ -200,10 +217,11 @@
                 <div class="architecture-flow"><span>FLUTTER</span><b>→</b><span>FLASK API</span><b>→</b><span>ENSEMBLE ML</span><b>→</b><span>RAG</span></div>
                 <div class="preview-metrics"><span><strong>95,00 %</strong> F1-SCORE</span><span><strong>14</strong> MODELOS</span><span><strong>4 CAPAS</strong> ARQUITECTURA</span></div>
               </div>
+              <button class="lab-launch" type="button" data-lab="phishing"><span>LAB // 01</span>Analizar una URL <b>→</b></button>
               <div class="project-tags"><span>Flutter</span><span>Python</span><span>Flask</span><span>Machine Learning</span><span>PostgreSQL</span><span>RAG</span></div>
-            </a>
-            <a class="project-card" href="https://github.com/AlejandroDart/fake-news-system" target="_blank" rel="noreferrer">
-              <div class="project-top"><span>02 · IA APLICADA</span><span>↗</span></div>
+            </article>
+            <article class="project-card" data-project="news">
+              <div class="project-top"><span>02 · IA APLICADA</span><a class="project-repo" href="https://github.com/AlejandroDart/fake-news-system" target="_blank" rel="noreferrer" aria-label="Abrir repositorio de Fake News System">REPO ↗</a></div>
               <p class="project-name">Fake News System</p>
               <h3>Detección inteligente de noticias falsas.</h3>
               <p>Sistema full stack con Laravel, API Flask, PostgreSQL y un modelo BiLSTM para clasificación y trazabilidad de resultados.</p>
@@ -211,10 +229,11 @@
                 <div class="architecture-flow"><span>LARAVEL</span><b>→</b><span>FLASK</span><b>→</b><span>BiLSTM</span></div>
                 <div class="preview-metrics"><span><strong>NLP</strong> MOTOR</span><span><strong>SQL</strong> TRAZABILIDAD</span></div>
               </div>
+              <button class="lab-launch" type="button" data-lab="news"><span>LAB // 02</span>Clasificar una noticia <b>→</b></button>
               <div class="project-tags"><span>Laravel</span><span>Python</span><span>BiLSTM</span><span>PostgreSQL</span></div>
-            </a>
-            <a class="project-card" href="https://github.com/AlejandroDart/FoodPlease" target="_blank" rel="noreferrer">
-              <div class="project-top"><span>03 · MOBILE</span><span>↗</span></div>
+            </article>
+            <article class="project-card" data-project="food">
+              <div class="project-top"><span>03 · MOBILE</span><a class="project-repo" href="https://github.com/AlejandroDart/FoodPlease" target="_blank" rel="noreferrer" aria-label="Abrir repositorio de FoodPlease">REPO ↗</a></div>
               <p class="project-name">Cybernetic FoodPlease</p>
               <h3>Gestión móvil de pedidos para restaurantes.</h3>
               <p>Proyecto académico colaborativo en Flutter con QR, pedidos en tiempo real, control por mesero y API propia en Python.</p>
@@ -222,8 +241,9 @@
                 <div class="architecture-flow"><span>FLUTTER</span><b>→</b><span>QR</span><b>→</b><span>PYTHON API</span></div>
                 <div class="preview-metrics"><span><strong>REAL TIME</strong> PEDIDOS</span><span><strong>MOBILE</strong> EXPERIENCIA</span></div>
               </div>
+              <button class="lab-launch" type="button" data-lab="food"><span>LAB // 03</span>Simular un pedido <b>→</b></button>
               <div class="project-tags"><span>Flutter</span><span>Dart</span><span>Python</span><span>SQLite</span></div>
-            </a>
+            </article>
           </div>
         </div>
       </section>
@@ -262,6 +282,21 @@
             <button class="tech-node node-postgres" type="button" data-tech="postgres"><span>DB</span><strong>PostgreSQL</strong></button>
             <button class="tech-node node-llm" type="button" data-tech="llm"><span>LLM</span><strong>Modelos generativos</strong></button>
             <div class="tech-core" aria-hidden="true"><img src="assets/am-cyberbot-logo-web.png" alt="" width="68" height="68" /><span>AM/SYS</span></div>
+          </div>
+          <div class="chile-network" aria-label="Mapa tecnológico de Chile con centro en Santiago">
+            <div class="chile-visual" aria-hidden="true">
+              <div class="chile-land"></div>
+              <i class="chile-node chile-node-north"></i>
+              <i class="chile-node chile-node-santiago"></i>
+              <i class="chile-node chile-node-south"></i>
+              <span class="chile-city">SANTIAGO // HUB CENTRAL</span>
+            </div>
+            <div class="chile-copy">
+              <p>// TERRITORIO Y TECNOLOGÍA</p>
+              <h3>Ingeniería conectada<br />desde Chile.</h3>
+              <span>Una red conceptual que une desarrollo, inteligencia artificial, datos y seguridad con vocación de servicio.</span>
+              <div class="chile-signals"><b>INTELIGENCIA ARTIFICIAL</b><b>INGENIERÍA</b><b>CIBERSEGURIDAD</b><b>DESARROLLO</b></div>
+            </div>
           </div>
         </div>
       </section>
@@ -311,6 +346,103 @@
       </section>
     </div>
 
+    <div class="lab-modal" id="project-lab" role="dialog" aria-modal="true" aria-labelledby="lab-title" hidden>
+      <section class="lab-shell">
+        <header class="lab-header">
+          <div class="lab-brand"><i aria-hidden="true"></i><span>AM/SYS // PROJECT LAB</span><strong id="lab-title">Laboratorio interactivo</strong></div>
+          <span class="lab-local">SIMULACIÓN LOCAL · SIN ENVÍO DE DATOS</span>
+          <button class="lab-close" id="lab-close" type="button" aria-label="Cerrar laboratorio">×</button>
+        </header>
+        <nav class="lab-tabs" role="tablist" aria-label="Demostraciones de proyectos">
+          <button type="button" role="tab" data-lab-tab="phishing" aria-controls="lab-panel-phishing" aria-selected="true"><span>01</span>Analizador URL</button>
+          <button type="button" role="tab" data-lab-tab="news" aria-controls="lab-panel-news" aria-selected="false"><span>02</span>Clasificador</button>
+          <button type="button" role="tab" data-lab-tab="food" aria-controls="lab-panel-food" aria-selected="false"><span>03</span>FoodPlease</button>
+        </nav>
+        <div class="lab-stage">
+          <section class="lab-panel active" id="lab-panel-phishing" role="tabpanel" data-lab-panel="phishing" aria-labelledby="url-lab-title">
+            <div class="lab-panel-copy"><p>// LINKSHIELD AI · DEMO</p><h3 id="url-lab-title">Analiza una URL sospechosa.</h3><span>Una simulación heurística explica señales de riesgo inspiradas en el proyecto real.</span></div>
+            <form class="lab-form url-lab-form" id="url-lab-form">
+              <label for="url-lab-input">URL PARA ANALIZAR</label>
+              <div><input id="url-lab-input" type="text" inputmode="url" value="http://secure-account-verify.example/login" autocomplete="off" /><button type="submit">Analizar</button></div>
+            </form>
+            <div class="url-lab-result" id="url-lab-result" data-level="idle" aria-live="polite">
+              <div class="risk-gauge"><strong id="url-risk-score">--</strong><span>RIESGO</span></div>
+              <div><small>CLASIFICACIÓN SIMULADA</small><b id="url-risk-label">ESPERANDO ANÁLISIS</b><ul id="url-signal-list"><li>Ingresa una URL y ejecuta el análisis.</li></ul></div>
+            </div>
+          </section>
+
+          <section class="lab-panel" id="lab-panel-news" role="tabpanel" data-lab-panel="news" aria-labelledby="news-lab-title" hidden>
+            <div class="lab-panel-copy"><p>// FAKE NEWS SYSTEM · DEMO</p><h3 id="news-lab-title">Evalúa señales de una noticia.</h3><span>El prototipo inspecciona estilo, contexto y trazabilidad para producir una estimación didáctica.</span></div>
+            <form class="lab-form news-lab-form" id="news-lab-form">
+              <label for="news-lab-input">TEXTO DE LA NOTICIA</label>
+              <textarea id="news-lab-input" rows="5">ÚLTIMA HORA: estudio secreto revela un descubrimiento increíble que nadie quiere que conozcas. Comparte antes de que lo eliminen.</textarea>
+              <button type="submit">Clasificar contenido</button>
+            </form>
+            <div class="news-lab-result" aria-live="polite">
+              <div><span>CONFIABILIDAD ESTIMADA</span><strong id="news-trust-value">--</strong><i><b id="news-trust-bar"></b></i></div>
+              <div><span>RIESGO DE DESINFORMACIÓN</span><strong id="news-risk-value">--</strong><i><b id="news-risk-bar"></b></i></div>
+              <p id="news-verdict">El sistema está listo para evaluar el texto.</p>
+            </div>
+          </section>
+
+          <section class="lab-panel" id="lab-panel-food" role="tabpanel" data-lab-panel="food" aria-labelledby="food-lab-title" hidden>
+            <div class="lab-panel-copy"><p>// FOODPLEASE · DEMO</p><h3 id="food-lab-title">Simula un pedido en tiempo real.</h3><span>Selecciona productos, revisa la comanda y observa el flujo operativo del restaurante.</span></div>
+            <div class="food-lab-grid">
+              <div class="food-menu" aria-label="Productos disponibles">
+                <button type="button" data-food-name="Cyber Burger" data-food-price="7490"><span>🍔</span><b>Cyber Burger</b><small>$7.490</small></button>
+                <button type="button" data-food-name="Quantum Pizza" data-food-price="8990"><span>🍕</span><b>Quantum Pizza</b><small>$8.990</small></button>
+                <button type="button" data-food-name="Data Coffee" data-food-price="2990"><span>☕</span><b>Data Coffee</b><small>$2.990</small></button>
+                <button type="button" data-food-name="Kernel Fries" data-food-price="3490"><span>🍟</span><b>Kernel Fries</b><small>$3.490</small></button>
+              </div>
+              <aside class="food-order">
+                <div><span>COMANDA // MESA 07</span><strong id="food-order-count">00 ITEMS</strong></div>
+                <ul id="food-cart"><li class="food-empty">Selecciona productos del menú.</li></ul>
+                <p><span>TOTAL</span><strong id="food-total">$0</strong></p>
+                <button id="food-send-order" type="button" disabled>Enviar pedido</button>
+              </aside>
+            </div>
+            <ol class="food-status" id="food-status" aria-live="polite"><li data-step="received">RECIBIDO</li><li data-step="kitchen">EN COCINA</li><li data-step="ready">LISTO</li></ol>
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <div class="command-palette" id="command-palette" role="dialog" aria-modal="true" aria-labelledby="command-title" hidden>
+      <section class="command-shell">
+        <header><span aria-hidden="true">⌕</span><label id="command-title" for="command-input">Buscar en AM/SYS</label><kbd>ESC</kbd></header>
+        <input id="command-input" type="search" autocomplete="off" placeholder="Escribe proyectos, formación, jugar, Anita..." />
+        <div class="command-list" id="command-list" role="listbox" aria-label="Resultados de comandos">
+          <button type="button" data-command-action="section:perfil" data-keywords="perfil presentación identidad"><span>01</span><b>Ir a Perfil</b><small>PROPÓSITO PROFESIONAL</small></button>
+          <button type="button" data-command-action="section:formacion" data-keywords="formación educación títulos"><span>02</span><b>Ir a Formación</b><small>TRAYECTORIA ACADÉMICA</small></button>
+          <button type="button" data-command-action="section:certificaciones" data-keywords="certificaciones cursos credenciales"><span>03</span><b>Ver Credenciales</b><small>19 CERTIFICACIONES</small></button>
+          <button type="button" data-command-action="section:proyectos" data-keywords="proyectos github repositorios"><span>04</span><b>Ir a Proyectos</b><small>3 SISTEMAS DESTACADOS</small></button>
+          <button type="button" data-command-action="lab:phishing" data-keywords="laboratorio url phishing demo"><span>LAB</span><b>Abrir Project Lab</b><small>DEMOSTRACIONES INTERACTIVAS</small></button>
+          <button type="button" data-command-action="section:tecnologias" data-keywords="tecnologías stack mapa chile"><span>05</span><b>Explorar Tecnologías</b><small>STACK Y CONEXIONES</small></button>
+          <button type="button" data-command-action="game" data-keywords="jugar juego cyber catch"><span>▶</span><b>Iniciar Cyber Catch</b><small>EASTER EGG</small></button>
+          <button type="button" data-command-action="theme" data-keywords="tema claro oscuro cambiar"><span>◐</span><b>Cambiar tema</b><small>CLARO / OSCURO</small></button>
+          <button type="button" data-command-action="terminal" data-keywords="terminal consola comandos"><span>&gt;_</span><b>Abrir Terminal</b><small>SECURE CONSOLE</small></button>
+          <button type="button" data-command-action="achievements" data-keywords="insignias logros achievements"><span>◇</span><b>Ver Insignias</b><small>PROGRESO AM/SYS</small></button>
+          <button type="button" data-command-action="anita" data-keywords="anita amor sorpresa propuesta"><span>♡</span><b>Abrir Anita</b><small>PROTOCOLO ROMÁNTICO</small></button>
+          <button type="button" data-command-action="section:contacto" data-keywords="contacto linkedin github"><span>06</span><b>Ir a Contacto</b><small>SIGAMOS CONECTADOS</small></button>
+        </div>
+        <footer><span>↑↓ NAVEGAR</span><span>ENTER EJECUTAR</span><span>CTRL K ABRIR</span></footer>
+      </section>
+    </div>
+
+    <div class="achievement-modal" id="achievement-modal" role="dialog" aria-modal="true" aria-labelledby="achievement-title" hidden>
+      <section class="achievement-shell">
+        <header><div><span>// AM/SYS ACHIEVEMENTS</span><h2 id="achievement-title">Insignias del sistema</h2></div><button id="achievement-close" type="button" aria-label="Cerrar insignias">×</button></header>
+        <div class="achievement-progress"><div><span id="achievement-progress-bar"></span></div><p><strong id="achievement-progress-count">0</strong> DE 5 DESBLOQUEADAS</p></div>
+        <div class="achievement-grid">
+          <article data-achievement="system"><span>◉</span><div><small>SISTEMA // 01</small><h3>Sistema activo</h3><p>Enciende el núcleo AM/SYS.</p></div><b>BLOQUEADA</b></article>
+          <article data-achievement="terminal"><span>&gt;_</span><div><small>SISTEMA // 02</small><h3>Operador de consola</h3><p>Abre la terminal personal.</p></div><b>BLOQUEADA</b></article>
+          <article data-achievement="game"><span>◎</span><div><small>SISTEMA // 03</small><h3>Cyber Catch</h3><p>Completa una sesión del juego.</p></div><b>BLOQUEADA</b></article>
+          <article data-achievement="anita"><span>♡</span><div><small>SISTEMA // 04</small><h3>Protocolo del corazón</h3><p>Encuentra la sorpresa de Anita.</p></div><b>BLOQUEADA</b></article>
+          <article data-achievement="constellation"><span>✦</span><div><small>SISTEMA // 05</small><h3>Cartógrafo tecnológico</h3><p>Explora toda la constelación.</p></div><b>BLOQUEADA</b></article>
+        </div>
+      </section>
+    </div>
+
     <div class="terminal-modal" id="terminal-modal" role="dialog" aria-modal="true" aria-labelledby="terminal-title" hidden>
       <section class="terminal-shell">
         <header class="terminal-header">
@@ -319,7 +451,7 @@
           <button class="terminal-close" id="terminal-close" type="button" aria-label="Cerrar terminal">×</button>
         </header>
         <div class="terminal-output" id="terminal-output" role="log" aria-live="polite" aria-label="Salida de la terminal">
-          <p class="terminal-system">AM/SYS v4.0 conectado · Santiago, Chile</p>
+          <p class="terminal-system">AM/SYS v5.0 conectado · Santiago, Chile</p>
           <p>Escribe <b>ayuda</b> o selecciona un comando rápido.</p>
         </div>
         <div class="terminal-quick" aria-label="Comandos rápidos">
@@ -334,12 +466,12 @@
           <input id="terminal-input" name="command" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="terminal-help" />
           <button type="submit">Ejecutar</button>
         </form>
-        <small id="terminal-help">Comandos: ayuda · perfil · proyectos · stack · contacto · anita · sistema · cursor · limpiar</small>
+        <small id="terminal-help">Comandos: ayuda · perfil · proyectos · stack · laboratorio · insignias · contacto · anita · sistema · cursor · limpiar</small>
       </section>
     </div>
 
     <a class="back-top" href="#inicio" aria-label="Volver al inicio">↑</a>
     <footer><span>© 2026 ALEJANDRO MAYRÓ LENA <span id="local-surprise-slot"></span></span><span>INGENIERÍA · CHILE</span></footer>
-    <script src="script.js?v=4.2.0" defer></script>
+    <script src="script.js?v=5.0.0" defer></script>
   </body>
 </html>
