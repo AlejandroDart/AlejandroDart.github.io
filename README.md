@@ -4,6 +4,8 @@ Portafolio estático con estética de cristal, fondo de ingeniería animado, llu
 
 Incluye el easter egg romántico público del pie de página.
 
+El mapa base de Chile corresponde a “Chile blank map”, de Sageo, disponible en Wikimedia Commons bajo licencia CC BY-SA 4.0.
+
 ## Sitio
 
 https://alejandrodart.github.io/

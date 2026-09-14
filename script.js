@@ -175,10 +175,9 @@ function setActiveSection(id) {
     if (active) {
       link.setAttribute("aria-current", "page");
       if (nav.scrollWidth > nav.clientWidth) {
-        link.scrollIntoView({
+        nav.scrollTo({
+          left: link.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2,
           behavior: reduceMotion.matches ? "auto" : "smooth",
-          block: "nearest",
-          inline: "center",
         });
       }
     } else {
