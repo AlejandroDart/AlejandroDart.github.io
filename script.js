@@ -1,4 +1,3 @@
-const clock = document.querySelector("#chile-clock");
 const progressFill = document.querySelector("#scroll-progress-fill");
 const backTop = document.querySelector(".back-top");
 const nav = document.querySelector("nav");
@@ -24,7 +23,7 @@ function buildDataRain() {
   const glyphs = ["01", "{ }", "AI", "∑", "λ", "</>", "π", "∞", "SQL", "RAG", "C++", "◈", "∫", "ML", "{}", "⚙"];
   const fragment = document.createDocumentFragment();
 
-  for (let index = 0; index < 24; index += 1) {
+  for (let index = 0; index < 16; index += 1) {
     const drop = document.createElement("span");
     drop.textContent = glyphs[index % glyphs.length];
     drop.style.setProperty("--left", `${(index * 37 + 7) % 100}%`);
@@ -71,7 +70,7 @@ function createCursorSpark(x, y) {
   spark.style.left = `${x}px`;
   spark.style.top = `${y}px`;
   document.body.appendChild(spark);
-  window.setTimeout(() => spark.remove(), 520);
+  window.setTimeout(() => spark.remove(), 380);
 }
 
 let lastCursorSpark = 0;
@@ -90,7 +89,7 @@ window.addEventListener("pointermove", (event) => {
       techCursor.classList.add("visible");
     }
   });
-  if (cursorEnabled && event.timeStamp - lastCursorSpark > 46) {
+  if (cursorEnabled && event.timeStamp - lastCursorSpark > 92) {
     lastCursorSpark = event.timeStamp;
     createCursorSpark(event.clientX, event.clientY);
   }
@@ -166,29 +165,6 @@ window.addEventListener("storage", (event) => {
   }
 });
 
-const chileTime = new Intl.DateTimeFormat("es-CL", {
-  timeZone: "America/Santiago",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
-
-const chileDate = new Intl.DateTimeFormat("es-CL", {
-  timeZone: "America/Santiago",
-  weekday: "long",
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-});
-
-function updateClock() {
-  const now = new Date();
-  clock.textContent = chileTime.format(now).replace(/^24:/, "00:");
-  clock.dateTime = now.toISOString();
-  clock.parentElement.title = `${chileDate.format(now)} · Hora de Chile continental`;
-}
-
 let activeSectionId = "";
 function setActiveSection(id) {
   if (id === activeSectionId) return;
@@ -250,8 +226,17 @@ if (reduceMotion.matches || !("IntersectionObserver" in window)) {
   revealTargets.forEach((element) => revealObserver.observe(element));
 }
 
-updateClock();
-window.setInterval(updateClock, 1000);
+/* Mantiene en ejecución solo las animaciones complejas que están a la vista. */
+const performanceZones = [...document.querySelectorAll(".project-card, .tech-map, .chile-network")];
+if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+  performanceZones.forEach((zone) => zone.classList.add("motion-active"));
+} else {
+  const motionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => entry.target.classList.toggle("motion-active", entry.isIntersecting));
+  }, { rootMargin:"180px 0px", threshold:0 });
+  performanceZones.forEach((zone) => motionObserver.observe(zone));
+}
+
 updateScrollState();
 
 /* Secuencia de inicialización AM/SYS */
@@ -390,12 +375,11 @@ function executeTerminalCommand(rawCommand) {
   appendTerminalLine(`alejandro@am-sys:~$ ${command}`, "command");
 
   const responses = {
-    ayuda: "Comandos disponibles: perfil, proyectos, stack, laboratorio, insignias, contacto, anita, sistema, cursor, hora, limpiar.",
+    ayuda: "Comandos disponibles: perfil, proyectos, stack, laboratorio, insignias, contacto, anita, sistema, cursor, limpiar.",
     perfil: "Alejandro Mayró Lena // Ingeniería informática, ciberseguridad e Ingeniería Civil Informática en curso.",
     proyectos: "03 sistemas destacados: LinkShield AI, Fake News System y Cybernetic FoodPlease.",
     stack: "Python · Dart · Flutter · Laravel · Flask · C++ · PostgreSQL · Machine Learning · LLM · RAG.",
     contacto: "GitHub: @AlejandroDart // LinkedIn: linkedin.com/in/amavr6",
-    hora: `Hora de Chile: ${clock.textContent}`,
   };
 
   if (command === "limpiar" || command === "clear") {
@@ -684,6 +668,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 document.addEventListener("visibilitychange", () => {
+  document.body.classList.toggle("page-idle", document.hidden);
   if (document.hidden && !gameOverlay.hidden) closeGame();
 });
 
