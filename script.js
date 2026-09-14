@@ -332,12 +332,14 @@ function highlightTechnology(technology = "") {
 }
 
 techNodes.forEach((node) => {
+  node.setAttribute("aria-pressed", "false");
   node.addEventListener("pointerenter", () => highlightTechnology(node.dataset.tech));
   node.addEventListener("pointerleave", () => highlightTechnology(selectedTechnology));
   node.addEventListener("focus", () => highlightTechnology(node.dataset.tech));
   node.addEventListener("blur", () => highlightTechnology(selectedTechnology));
   node.addEventListener("click", () => {
     selectedTechnology = selectedTechnology === node.dataset.tech ? "" : node.dataset.tech;
+    techNodes.forEach((item) => item.setAttribute("aria-pressed", String(item.dataset.tech === selectedTechnology)));
     highlightTechnology(selectedTechnology);
   });
 });
@@ -362,6 +364,7 @@ function appendTerminalLine(text, type = "response") {
 function openTerminal() {
   terminalReturnFocus = document.activeElement;
   terminalModal.hidden = false;
+  terminalToggle.setAttribute("aria-expanded", "true");
   document.body.classList.add("terminal-open");
   window.requestAnimationFrame(() => terminalModal.classList.add("visible"));
   window.setTimeout(() => terminalInput.focus(), reduceMotion.matches ? 0 : 220);
@@ -369,6 +372,7 @@ function openTerminal() {
 
 function closeTerminal() {
   terminalModal.classList.remove("visible");
+  terminalToggle.setAttribute("aria-expanded", "false");
   document.body.classList.remove("terminal-open");
   const finish = () => {
     terminalModal.hidden = true;
@@ -618,6 +622,7 @@ function startGame() {
   if (openingFromPortfolio) previousFocus = document.activeElement;
   gameResult.hidden = true;
   gameOverlay.hidden = false;
+  gameTrigger.setAttribute("aria-expanded", "true");
   document.body.classList.add("game-open");
   updateGameHud();
   gameStatus.textContent = reduceMotion.matches
@@ -632,6 +637,7 @@ function closeGame() {
   gameActive = false;
   clearGameObjects();
   gameOverlay.hidden = true;
+  gameTrigger.setAttribute("aria-expanded", "false");
   gameResult.hidden = true;
   document.body.classList.remove("game-open");
   gameStatus.textContent = "Juego cerrado.";
@@ -686,6 +692,7 @@ async function initLoveSurprise() {
     trigger.className = "secret-love-trigger";
     trigger.textContent = `💙 ${surprise.name}`;
     trigger.setAttribute("aria-haspopup", "dialog");
+    trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-label", `Abrir sorpresa para ${surprise.name}`);
     slot.appendChild(trigger);
 
@@ -731,6 +738,7 @@ async function initLoveSurprise() {
     proposalButton.className = "proposal-open";
     proposalButton.textContent = "Ver propuesta";
     proposalButton.setAttribute("aria-controls", "love-proposal");
+    proposalButton.setAttribute("aria-expanded", "false");
     copy.append(kicker, title, message, caption, proposalButton);
 
     const proposal = document.createElement("div");
@@ -808,12 +816,14 @@ async function initLoveSurprise() {
     function openLoveModal() {
       returnFocus = document.activeElement;
       modal.hidden = false;
+      trigger.setAttribute("aria-expanded", "true");
       document.body.classList.add("love-open");
       requestAnimationFrame(() => modal.classList.add("visible"));
       close.focus();
     }
     function closeLoveModal() {
       modal.classList.remove("visible");
+      trigger.setAttribute("aria-expanded", "false");
       document.body.classList.remove("love-open");
       const finish = () => {
         modal.hidden = true;
@@ -834,6 +844,7 @@ async function initLoveSurprise() {
     function openProposal() {
       resetProposal();
       proposal.hidden = false;
+      proposalButton.setAttribute("aria-expanded", "true");
       card.classList.add("proposal-active");
       requestAnimationFrame(() => {
         proposal.classList.add("visible");
@@ -843,6 +854,7 @@ async function initLoveSurprise() {
 
     function closeProposal() {
       proposal.classList.remove("visible");
+      proposalButton.setAttribute("aria-expanded", "false");
       card.classList.remove("proposal-active");
       const finish = () => {
         proposal.hidden = true;
