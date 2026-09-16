@@ -667,3 +667,99 @@ html[data-theme="light"] .github-icon { filter:none; }
 @media (prefers-reduced-transparency:reduce) {
   .topbar,.identity-card,.metrics,.timeline-card,.cert-year,.project-card,.tech-grid article,.telemetry-panel,.tech-map,.chile-network,.contact-links a { -webkit-backdrop-filter:none; backdrop-filter:none; }
 }
+
+/* V5.5 · Project Lab aislado del menú global y optimizado para móviles */
+.lab-tabs {
+  width:100%;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  flex:none;
+  justify-content:stretch;
+  overflow:hidden;
+  overflow-x:hidden;
+  white-space:normal;
+  scrollbar-width:auto;
+}
+.lab-tabs button {
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:0 14px;
+  border-radius:0;
+  overflow:hidden;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.lab-tabs button > * { min-width:0; }
+.lab-tabs button:focus-visible {
+  outline-offset:-3px;
+}
+
+@media (max-width:560px) {
+  .lab-shell {
+    height:100vh;
+    height:100dvh;
+    max-height:100vh;
+    max-height:100dvh;
+  }
+  .lab-stage {
+    max-height:calc(100vh - 136px);
+    max-height:calc(100dvh - 136px);
+  }
+  .lab-header {
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:10px;
+  }
+  .lab-brand { min-width:0; }
+  .lab-brand span { font-size:7.5px; }
+  .lab-brand strong {
+    overflow:hidden;
+    font-size:15px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .lab-close {
+    width:40px;
+    height:40px;
+  }
+  .lab-tabs { min-height:64px; }
+  .lab-tabs button {
+    min-height:64px;
+    grid-template-columns:1fr;
+    align-content:center;
+    justify-items:center;
+    gap:4px;
+    padding:7px 5px;
+    font-size:7.5px;
+    line-height:1.25;
+    text-align:center;
+    white-space:normal;
+  }
+  .lab-tabs button span { display:block; }
+  .lab-panel-copy { margin-bottom:20px; }
+  .lab-panel-copy h3 {
+    font-size:clamp(1.85rem,9.5vw,2.3rem);
+    overflow-wrap:anywhere;
+  }
+  .lab-form input,.lab-form textarea { font-size:16px; }
+  .lab-form input {
+    height:50px;
+    text-overflow:ellipsis;
+  }
+  .lab-form button,.food-order > button { min-height:50px; }
+  .url-lab-result {
+    gap:16px;
+    padding:18px 14px;
+  }
+  .food-order { min-height:190px; }
+}
+
+@media (max-width:360px) {
+  .lab-panel { padding-right:13px; padding-left:13px; }
+  .lab-brand strong { font-size:14px; }
+  .lab-tabs button {
+    padding-right:3px;
+    padding-left:3px;
+    font-size:6.75px;
+  }
+}
