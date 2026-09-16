@@ -1,7 +1,9 @@
 const progressFill = document.querySelector("#scroll-progress-fill");
 const backTop = document.querySelector(".back-top");
-const nav = document.querySelector("nav");
-const navLinks = [...document.querySelectorAll('nav a[href^="#"]')];
+const topbar = document.querySelector(".topbar");
+const nav = document.querySelector(".topbar nav");
+const navLinks = [...document.querySelectorAll('.topbar nav a[href^="#"]')];
+const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
 const sections = [...document.querySelectorAll("main[id], main section[id]")];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const themeToggle = document.querySelector("#theme-toggle");
@@ -19,6 +21,28 @@ const resourceConstrained = Boolean(
   || (navigator.deviceMemory && navigator.deviceMemory <= 4)
   || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
 );
+
+function setMobileMenu(open) {
+  const nextState = Boolean(open && window.matchMedia("(max-width: 560px)").matches);
+  topbar.classList.toggle("menu-open", nextState);
+  mobileMenuToggle.setAttribute("aria-expanded", String(nextState));
+  mobileMenuToggle.setAttribute("aria-label", nextState ? "Cerrar menú de navegación" : "Abrir menú de navegación");
+}
+
+mobileMenuToggle.addEventListener("click", () => {
+  setMobileMenu(mobileMenuToggle.getAttribute("aria-expanded") !== "true");
+});
+
+navLinks.forEach((link) => link.addEventListener("click", () => setMobileMenu(false)));
+document.addEventListener("click", (event) => {
+  if (topbar.classList.contains("menu-open") && !topbar.contains(event.target)) setMobileMenu(false);
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setMobileMenu(false);
+});
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 560) setMobileMenu(false);
+}, { passive:true });
 
 function buildDataRain() {
   if (!dataRain) return;
