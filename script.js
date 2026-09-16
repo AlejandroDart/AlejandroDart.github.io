@@ -14,6 +14,11 @@ const systemToggle = document.querySelector("#system-toggle");
 const systemToast = document.querySelector("#system-toast");
 const systemReadout = document.querySelector(".hero-system-readout span");
 const finePointer = window.matchMedia("(pointer: fine)");
+const resourceConstrained = Boolean(
+  navigator.connection?.saveData
+  || (navigator.deviceMemory && navigator.deviceMemory <= 4)
+  || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
+);
 
 function buildDataRain() {
   if (!dataRain) return;
@@ -23,7 +28,8 @@ function buildDataRain() {
   const glyphs = ["01", "{ }", "AI", "∑", "λ", "</>", "π", "∞", "SQL", "RAG", "C++", "◈", "∫", "ML", "{}", "⚙"];
   const fragment = document.createDocumentFragment();
 
-  for (let index = 0; index < 16; index += 1) {
+  const dropCount = resourceConstrained ? 10 : 14;
+  for (let index = 0; index < dropCount; index += 1) {
     const drop = document.createElement("span");
     drop.textContent = glyphs[index % glyphs.length];
     drop.style.setProperty("--left", `${(index * 37 + 7) % 100}%`);
@@ -89,7 +95,7 @@ window.addEventListener("pointermove", (event) => {
       techCursor.classList.add("visible");
     }
   });
-  if (cursorEnabled && event.timeStamp - lastCursorSpark > 92) {
+  if (!resourceConstrained && cursorEnabled && event.timeStamp - lastCursorSpark > 110) {
     lastCursorSpark = event.timeStamp;
     createCursorSpark(event.clientX, event.clientY);
   }
@@ -101,11 +107,17 @@ document.documentElement.addEventListener("mouseleave", () => {
   techCursor?.classList.remove("visible");
 });
 
-reduceMotion.addEventListener?.("change", (event) => {
+function handleReducedMotionChange(event) {
   if (event.matches) setAmbientPosition();
   buildDataRain();
   applyCursorState(cursorEnabled, false);
-});
+}
+
+if (typeof reduceMotion.addEventListener === "function") {
+  reduceMotion.addEventListener("change", handleReducedMotionChange);
+} else {
+  reduceMotion.addListener?.(handleReducedMotionChange);
+}
 
 cursorToggle.addEventListener("click", () => applyCursorState(!cursorEnabled));
 applyCursorState(cursorEnabled, false);
@@ -132,8 +144,10 @@ function setSystemActive(active) {
 
 systemToggle.addEventListener("click", () => setSystemActive(!systemActive));
 
+const supportsIndividualTransforms = window.CSS?.supports?.("translate", "1px") ?? false;
 document.querySelectorAll(".button, .theme-toggle, .terminal-toggle, .command-toggle, .achievement-toggle, .cursor-toggle, .contact-links a").forEach((element) => {
   element.classList.add("magnetic");
+  if (!supportsIndividualTransforms) return;
   element.addEventListener("pointermove", (event) => {
     if (!finePointer.matches || reduceMotion.matches) return;
     const rect = element.getBoundingClientRect();
@@ -222,7 +236,10 @@ if (reduceMotion.matches || !("IntersectionObserver" in window)) {
       }
     });
   }, { threshold: 0.08, rootMargin: "0px 0px -8%" });
-  revealTargets.forEach((element) => revealObserver.observe(element));
+  revealTargets.forEach((element) => {
+    if (element.matches(".metrics")) element.classList.add("revealed");
+    else revealObserver.observe(element);
+  });
 }
 
 /* Mantiene en ejecución solo las animaciones complejas que están a la vista. */
@@ -669,6 +686,7 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("visibilitychange", () => {
   document.body.classList.toggle("page-idle", document.hidden);
   if (document.hidden && !gameOverlay.hidden) closeGame();
+  syncTelemetryTimer();
 });
 
 /* Sorpresa romántica pública, visible desde el pie de página. */
@@ -961,6 +979,7 @@ initLoveSurprise();
 /* V5 · Telemetría profesional */
 const telemetryUptime = document.querySelector("#telemetry-uptime");
 const telemetryStartedAt = Date.now();
+let telemetryTimer = 0;
 function updateTelemetry() {
   if (!telemetryUptime) return;
   const elapsed = Math.floor((Date.now() - telemetryStartedAt) / 1000);
@@ -969,8 +988,17 @@ function updateTelemetry() {
   const seconds = String(elapsed % 60).padStart(2, "0");
   telemetryUptime.textContent = `UPTIME ${hours}:${minutes}:${seconds}`;
 }
-updateTelemetry();
-window.setInterval(updateTelemetry, 1000);
+
+function syncTelemetryTimer() {
+  window.clearInterval(telemetryTimer);
+  telemetryTimer = 0;
+  updateTelemetry();
+  if (!document.hidden && telemetryUptime) {
+    telemetryTimer = window.setInterval(updateTelemetry, 1000);
+  }
+}
+
+syncTelemetryTimer();
 
 /* V5 · Credenciales expandibles */
 const credentialData = {
