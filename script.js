@@ -21,6 +21,7 @@ const resourceConstrained = Boolean(
   || (navigator.deviceMemory && navigator.deviceMemory <= 4)
   || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
 );
+let loveSurpriseVisible = false;
 
 function setMobileMenu(open) {
   const nextState = Boolean(open && window.matchMedia("(max-width: 560px)").matches);
@@ -415,7 +416,7 @@ function executeTerminalCommand(rawCommand) {
   appendTerminalLine(`alejandro@am-sys:~$ ${command}`, "command");
 
   const responses = {
-    ayuda: "Comandos disponibles: perfil, proyectos, stack, laboratorio, insignias, contacto, anita, sistema, cursor, limpiar.",
+    ayuda: `Comandos disponibles: perfil, proyectos, stack, laboratorio, insignias, contacto${loveSurpriseVisible ? ", anita" : ""}, sistema, cursor, limpiar.`,
     perfil: "Alejandro Mayró Lena // Ingeniería informática, ciberseguridad e Ingeniería Civil Informática en curso.",
     proyectos: "03 sistemas destacados: LinkShield AI, Fake News System y Cybernetic FoodPlease.",
     stack: "Python · Dart · Flutter · Laravel · Flask · C++ · PostgreSQL · Machine Learning · LLM · RAG.",
@@ -713,23 +714,48 @@ document.addEventListener("visibilitychange", () => {
   syncTelemetryTimer();
 });
 
-/* Sorpresa romántica pública, visible desde el pie de página. */
+/* Sorpresa romántica controlada desde private-assets/surprise.json. */
+function applyLoveSurpriseVisibility(visible) {
+  loveSurpriseVisible = Boolean(visible);
+  document.body.classList.toggle("love-surprise-hidden", !loveSurpriseVisible);
+  document.querySelectorAll("[data-love-entry]").forEach((entry) => { entry.hidden = !loveSurpriseVisible; });
+
+  const slot = document.querySelector("#local-surprise-slot");
+  if (slot) slot.hidden = !loveSurpriseVisible;
+
+  const commandInput = document.querySelector("#command-input");
+  if (commandInput) commandInput.placeholder = loveSurpriseVisible
+    ? "Escribe proyectos, formación, jugar, Anita..."
+    : "Escribe proyectos, formación o jugar...";
+
+  const terminalHelp = document.querySelector("#terminal-help");
+  if (terminalHelp) terminalHelp.textContent = loveSurpriseVisible
+    ? "Comandos: ayuda · perfil · proyectos · stack · laboratorio · insignias · contacto · anita · sistema · cursor · limpiar"
+    : "Comandos: ayuda · perfil · proyectos · stack · laboratorio · insignias · contacto · sistema · cursor · limpiar";
+
+  if (typeof renderAchievements === "function") renderAchievements();
+}
+
 async function initLoveSurprise() {
   try {
     const response = await fetch("private-assets/surprise.json", { cache:"no-store" });
     if (!response.ok) return;
     const surprise = await response.json();
+    applyLoveSurpriseVisibility(surprise.visible === true);
     const slot = document.querySelector("#local-surprise-slot");
     if (!slot) return;
 
     const trigger = document.createElement("button");
     trigger.type = "button";
     trigger.className = "secret-love-trigger";
+    trigger.dataset.loveEntry = "";
+    trigger.hidden = !loveSurpriseVisible;
     trigger.textContent = `💙 ${surprise.name}`;
     trigger.setAttribute("aria-haspopup", "dialog");
     trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-label", `Abrir sorpresa para ${surprise.name}`);
     slot.appendChild(trigger);
+    slot.hidden = !loveSurpriseVisible;
 
     const modal = document.createElement("div");
     modal.className = "love-modal";
@@ -1284,6 +1310,7 @@ const achievementModal = document.querySelector("#achievement-modal");
 const achievementClose = document.querySelector("#achievement-close");
 const achievementCount = document.querySelector("#achievement-count");
 const achievementProgressCount = document.querySelector("#achievement-progress-count");
+const achievementProgressTotal = document.querySelector("#achievement-progress-total");
 const achievementProgressBar = document.querySelector("#achievement-progress-bar");
 const achievements = new Set();
 try {
@@ -1293,14 +1320,18 @@ try {
 } catch { /* Las insignias continúan disponibles durante la sesión. */ }
 
 function renderAchievements() {
+  const availableIds = Object.keys(achievementConfig).filter((id) => loveSurpriseVisible || id !== "anita");
+  const unlockedCount = availableIds.filter((id) => achievements.has(id)).length;
   document.querySelectorAll("[data-achievement]").forEach((card) => {
+    if (card.dataset.achievement === "anita") card.hidden = !loveSurpriseVisible;
     const unlocked = achievements.has(card.dataset.achievement);
     card.classList.toggle("unlocked", unlocked);
     card.querySelector(":scope > b").textContent = unlocked ? "DESBLOQUEADA" : "BLOQUEADA";
   });
-  achievementCount.textContent = `${achievements.size}/5`;
-  achievementProgressCount.textContent = String(achievements.size);
-  achievementProgressBar.style.width = `${achievements.size * 20}%`;
+  achievementCount.textContent = `${unlockedCount}/${availableIds.length}`;
+  achievementProgressCount.textContent = String(unlockedCount);
+  achievementProgressTotal.textContent = String(availableIds.length);
+  achievementProgressBar.style.width = `${availableIds.length ? (unlockedCount / availableIds.length) * 100 : 0}%`;
 }
 
 function awardAchievement(id) {

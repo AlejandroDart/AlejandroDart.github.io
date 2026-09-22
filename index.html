@@ -419,7 +419,7 @@
     <div class="command-palette" id="command-palette" role="dialog" aria-modal="true" aria-labelledby="command-title" hidden>
       <section class="command-shell">
         <header><span aria-hidden="true">⌕</span><label id="command-title" for="command-input">Buscar en AM/SYS</label><kbd>ESC</kbd></header>
-        <input id="command-input" type="search" autocomplete="off" placeholder="Escribe proyectos, formación, jugar, Anita..." />
+        <input id="command-input" type="search" autocomplete="off" placeholder="Escribe proyectos, formación o jugar..." />
         <div class="command-list" id="command-list" role="listbox" aria-label="Resultados de comandos">
           <button type="button" data-command-action="section:perfil" data-keywords="perfil presentación identidad"><span>01</span><b>Ir a Perfil</b><small>PROPÓSITO PROFESIONAL</small></button>
           <button type="button" data-command-action="section:formacion" data-keywords="formación educación títulos"><span>02</span><b>Ir a Formación</b><small>TRAYECTORIA ACADÉMICA</small></button>
@@ -431,7 +431,7 @@
           <button type="button" data-command-action="theme" data-keywords="tema claro oscuro cambiar"><span>◐</span><b>Cambiar tema</b><small>CLARO / OSCURO</small></button>
           <button type="button" data-command-action="terminal" data-keywords="terminal consola comandos"><span>&gt;_</span><b>Abrir Terminal</b><small>SECURE CONSOLE</small></button>
           <button type="button" data-command-action="achievements" data-keywords="insignias logros achievements"><span>◇</span><b>Ver Insignias</b><small>PROGRESO AM/SYS</small></button>
-          <button type="button" data-command-action="anita" data-keywords="anita amor sorpresa propuesta"><span>♡</span><b>Abrir Anita</b><small>PROTOCOLO ROMÁNTICO</small></button>
+          <button type="button" data-love-entry data-command-action="anita" data-keywords="anita amor sorpresa propuesta" hidden><span>♡</span><b>Abrir Anita</b><small>PROTOCOLO ROMÁNTICO</small></button>
           <button type="button" data-command-action="section:contacto" data-keywords="contacto linkedin github"><span>06</span><b>Ir a Contacto</b><small>SIGAMOS CONECTADOS</small></button>
         </div>
         <footer><span>↑↓ NAVEGAR</span><span>ENTER EJECUTAR</span><span>CTRL K ABRIR</span></footer>
@@ -441,12 +441,12 @@
     <div class="achievement-modal" id="achievement-modal" role="dialog" aria-modal="true" aria-labelledby="achievement-title" hidden>
       <section class="achievement-shell">
         <header><div><span>// AM/SYS ACHIEVEMENTS</span><h2 id="achievement-title">Insignias del sistema</h2></div><button id="achievement-close" type="button" aria-label="Cerrar insignias">×</button></header>
-        <div class="achievement-progress"><div><span id="achievement-progress-bar"></span></div><p><strong id="achievement-progress-count">0</strong> DE 5 DESBLOQUEADAS</p></div>
+        <div class="achievement-progress"><div><span id="achievement-progress-bar"></span></div><p><strong id="achievement-progress-count">0</strong> DE <span id="achievement-progress-total">4</span> DESBLOQUEADAS</p></div>
         <div class="achievement-grid">
           <article data-achievement="system"><span>◉</span><div><small>SISTEMA // 01</small><h3>Sistema activo</h3><p>Enciende el núcleo AM/SYS.</p></div><b>BLOQUEADA</b></article>
           <article data-achievement="terminal"><span>&gt;_</span><div><small>SISTEMA // 02</small><h3>Operador de consola</h3><p>Abre la terminal personal.</p></div><b>BLOQUEADA</b></article>
           <article data-achievement="game"><span>◎</span><div><small>SISTEMA // 03</small><h3>Cyber Catch</h3><p>Completa una sesión del juego.</p></div><b>BLOQUEADA</b></article>
-          <article data-achievement="anita"><span>♡</span><div><small>SISTEMA // 04</small><h3>Protocolo del corazón</h3><p>Encuentra la sorpresa de Anita.</p></div><b>BLOQUEADA</b></article>
+          <article data-love-entry data-achievement="anita" hidden><span>♡</span><div><small>SISTEMA // 04</small><h3>Protocolo del corazón</h3><p>Encuentra la sorpresa de Anita.</p></div><b>BLOQUEADA</b></article>
           <article data-achievement="constellation"><span>✦</span><div><small>SISTEMA // 05</small><h3>Cartógrafo tecnológico</h3><p>Explora toda la constelación.</p></div><b>BLOQUEADA</b></article>
         </div>
       </section>
@@ -468,19 +468,19 @@
           <button type="button" data-command="proyectos">proyectos</button>
           <button type="button" data-command="stack">stack</button>
           <button type="button" data-command="contacto">contacto</button>
-          <button type="button" data-command="anita">anita</button>
+          <button type="button" data-love-entry data-command="anita" hidden>anita</button>
         </div>
         <form class="terminal-form" id="terminal-form">
           <label for="terminal-input">alejandro@am-sys:~$</label>
           <input id="terminal-input" name="command" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="terminal-help" />
           <button type="submit">Ejecutar</button>
         </form>
-        <small id="terminal-help">Comandos: ayuda · perfil · proyectos · stack · laboratorio · insignias · contacto · anita · sistema · cursor · limpiar</small>
+        <small id="terminal-help">Comandos: ayuda · perfil · proyectos · stack · laboratorio · insignias · contacto · sistema · cursor · limpiar</small>
       </section>
     </div>
 
     <a class="back-top" href="#inicio" aria-label="Volver al inicio">↑</a>
-    <footer><span>© 2026 ALEJANDRO MAYRÓ LENA <span id="local-surprise-slot"></span></span><span>INGENIERÍA · CHILE</span></footer>
-    <script src="script.js?v=5.6.0" defer></script>
+    <footer><span>© 2026 ALEJANDRO MAYRÓ LENA <span id="local-surprise-slot" hidden></span></span><span>INGENIERÍA · CHILE</span></footer>
+    <script src="script.js?v=5.7.0" defer></script>
   </body>
 </html>
