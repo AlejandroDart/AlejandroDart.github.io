@@ -1402,7 +1402,8 @@ function filterCommands(value = "") {
   const query = normalizeCommand(value);
   commandButtons.forEach((button) => {
     const content = normalizeCommand(`${button.textContent} ${button.dataset.keywords || ""}`);
-    button.hidden = Boolean(query && !content.includes(query));
+    const hiddenLoveEntry = button.hasAttribute("data-love-entry") && !loveSurpriseVisible;
+    button.hidden = hiddenLoveEntry || Boolean(query && !content.includes(query));
   });
   selectCommand(0);
 }
