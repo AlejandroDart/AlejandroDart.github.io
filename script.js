@@ -420,7 +420,7 @@ function executeTerminalCommand(rawCommand) {
     perfil: "Alejandro Mayró Lena // Ingeniería informática, ciberseguridad e Ingeniería Civil Informática en curso.",
     proyectos: "03 sistemas destacados: LinkShield AI, Fake News System y Cybernetic FoodPlease.",
     stack: "Python · Dart · Flutter · Laravel · Flask · C++ · PostgreSQL · Machine Learning · LLM · RAG.",
-    contacto: "GitHub: @AlejandroDart // LinkedIn: linkedin.com/in/amavr6",
+    contacto: "GitHub: @AlejandroDart // LinkedIn: linkedin.com/in/amayró/",
   };
 
   if (command === "limpiar" || command === "clear") {
